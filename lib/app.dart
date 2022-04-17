@@ -33,18 +33,19 @@ class _AppState extends State<App> {
     _pokeProvider.initialize();
 
 
-    Future.delayed(const Duration(milliseconds: 5000), () {
-      setState(() {
-        _isLoading = false;
-      });
-
-    });
+    // Future.delayed(const Duration(milliseconds: 5000), () {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    //
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Who's That Pkmn?!",
+
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
