@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/pokedex.dart';
+import 'package:provider/provider.dart';
 import 'package:whose_that_pkmn/app.dart';
+import 'package:whose_that_pkmn/providers/ad_provider.dart';
+import 'package:whose_that_pkmn/providers/poke_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<PokeProvider>(
+        create: (context) => PokeProvider()),
+    ChangeNotifierProvider<AdProvider>(create: (context) => AdProvider())
+  ], child: MyApp()),);
 }
 
 class MyApp extends StatelessWidget {
