@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:whose_that_pkmn/providers/poke_provider.dart';
 
 class App extends StatefulWidget {
   const App({Key? key, required this.title}) : super(key: key);
@@ -19,11 +21,13 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  late PokeProvider _pokeProvider;
 
   @override
   void initState(){
     super.initState();
-
+    _pokeProvider = Provider.of<PokeProvider>(context, listen: false);
+    _pokeProvider.initialize();
   }
 
   @override
