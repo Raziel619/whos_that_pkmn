@@ -33,7 +33,7 @@ class AdProvider with ChangeNotifier {
           BannerAd(
             adUnitId: bannerID,
             size: AdSize.banner,
-            request: AdRequest(),
+            request: const AdRequest(),
             listener: BannerAdListener(onAdLoaded: (ad) {
               adLoaded(ad, i);
             }),
@@ -51,7 +51,7 @@ class AdProvider with ChangeNotifier {
   }
 
   Widget bannerWidget() {
-    if (!isInitialized) return SizedBox(height: 50);
+    if (!isInitialized) return const SizedBox(height: 50);
     ++_bannerCount;
     if (_bannerCount >= _bannerAds.length || !_bannerAds[_bannerCount].loaded) {
       return const SizedBox.shrink();
