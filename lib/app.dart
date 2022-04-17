@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:whose_that_pkmn/providers/poke_provider.dart';
 import 'package:whose_that_pkmn/screens/loading_screen.dart';
@@ -48,15 +49,17 @@ class _AppState extends State<App> {
 
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: GoogleFonts.pressStart2pTextTheme().apply(
+          bodyColor: Colors.white,
+          displayColor: Colors.white,
+        ),
       ),
       home: _isLoading ? const LoadingScreen(): Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const <Widget>[
-              Text(
-                'You have pushed the button this many times:',
-              ),
+
             ],
           ),
         ),

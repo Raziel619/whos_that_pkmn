@@ -12,7 +12,7 @@ class PokeProvider with ChangeNotifier{
 
     // reading pokedex json file
     final jsonPokedex =
-    await rootBundle.loadString(AssetPaths.POKEDEX);
+    await rootBundle.loadString(AssetPaths.JSON_POKEDEX);
     final pokedexData = PokedexData.fromJson(jsonDecode(jsonPokedex));
     print(pokedexData.pokemon.length);
   }

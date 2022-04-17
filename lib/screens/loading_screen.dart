@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:whose_that_pkmn/constants/app_colors.dart';
+import 'package:whose_that_pkmn/constants/asset_paths.dart';
 
 class LoadingScreen extends StatelessWidget{
   const LoadingScreen({Key? key}) : super(key: key);
@@ -15,8 +16,14 @@ class LoadingScreen extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Text(
-              'Loading',
+              'Populating PokeDex',
+              style: TextStyle(fontSize: 16),
             ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 30),
+              child: Image(image: AssetImage(AssetPaths.ICON_POKEBALL), width: 120,),
+            ),
+            Text('Please Wait...', style: TextStyle(fontSize: 16),)
           ],
         ),
       ),
