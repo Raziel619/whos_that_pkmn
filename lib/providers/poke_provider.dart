@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../constants/asset_paths.dart';
+import '../models/pokedex_data.dart';
 
 class PokeProvider with ChangeNotifier{
   Future<void> initialize() async {
@@ -10,6 +13,7 @@ class PokeProvider with ChangeNotifier{
     // reading pokedex json file
     final jsonPokedex =
     await rootBundle.loadString(AssetPaths.POKEDEX);
-    //allTokens = AllTokens.fromJson(jsonDecode(jsonTokensList));
+    final pokedexData = PokedexData.fromJson(jsonDecode(jsonPokedex));
+    print(pokedexData.pokemon.length);
   }
 }
