@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whose_that_pkmn/providers/poke_provider.dart';
+import 'package:whose_that_pkmn/screens/loading_screen.dart';
 
 class App extends StatefulWidget {
   const App({Key? key, required this.title}) : super(key: key);
@@ -23,32 +24,37 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   late PokeProvider _pokeProvider;
 
+  bool _isLoading = true;
+
   @override
   void initState(){
     super.initState();
     _pokeProvider = Provider.of<PokeProvider>(context, listen: false);
     _pokeProvider.initialize();
+
+
+    Future.delayed(const Duration(milliseconds: 5000), () {
+      setState(() {
+        _isLoading = false;
+      });
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: "Who's That Pkmn?!",
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(widget.title),
-        ),
+      home: _isLoading ? const LoadingScreen(): Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const <Widget>[
               Text(
-                'You have pushed the button this many timesss:',
+                'You have pushed the button this many times:',
               ),
             ],
           ),
