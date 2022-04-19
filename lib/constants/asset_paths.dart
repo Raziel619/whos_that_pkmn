@@ -1,4 +1,6 @@
 
+// ignore_for_file: constant_identifier_names
+
 class AssetPaths {
   //region Icons
   static const String ICON_POKEBALL = "assets/icons/pokeball.png";
@@ -11,5 +13,9 @@ class AssetPaths {
 
   //region Json
   static const String JSON_POKEDEX = "assets/json/pokedex.json";
+  //endregion
+
+  //region Lottie
+  static const String LOTTIE_POKEBALL = "assets/lottie/pokeball.json";
   //endregion
 }

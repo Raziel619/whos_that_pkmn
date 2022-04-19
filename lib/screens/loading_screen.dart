@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:whose_that_pkmn/constants/app_colors.dart';
 import 'package:whose_that_pkmn/constants/asset_paths.dart';
 
@@ -14,16 +13,20 @@ class LoadingScreen extends StatelessWidget{
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
+          children: <Widget>[
+            const Text(
               'Populating PokeDex',
               style: TextStyle(fontSize: 16),
             ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(vertical: 30),
+            //   child: Image(image: AssetImage(AssetPaths.ICON_POKEBALL), width: 120,),
+            // ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: Image(image: AssetImage(AssetPaths.ICON_POKEBALL), width: 120,),
+              padding: const EdgeInsets.symmetric(horizontal: 140, vertical: 30),
+              child: Lottie.asset(AssetPaths.LOTTIE_POKEBALL),
             ),
-            Text('Please Wait...', style: TextStyle(fontSize: 16),)
+            const Text('Please Wait...', style: TextStyle(fontSize: 16),)
           ],
         ),
       ),
