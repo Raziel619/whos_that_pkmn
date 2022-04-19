@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:whose_that_pkmn/constants/asset_paths.dart';
 import 'package:whose_that_pkmn/providers/poke_provider.dart';
 import 'package:whose_that_pkmn/screens/loading_screen.dart';
+import 'package:whose_that_pkmn/screens/main_screen.dart';
 
 class App extends StatefulWidget {
   const App({Key? key, required this.title}) : super(key: key);
@@ -28,25 +30,22 @@ class _AppState extends State<App> {
   bool _isLoading = true;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _pokeProvider = Provider.of<PokeProvider>(context, listen: false);
     _pokeProvider.initialize();
 
-
-    // Future.delayed(const Duration(milliseconds: 5000), () {
-    //   setState(() {
-    //     _isLoading = false;
-    //   });
-    //
-    // });
+    Future.delayed(const Duration(milliseconds: 5000), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Who's That Pkmn?!",
-
       theme: ThemeData(
         primarySwatch: Colors.blue,
         textTheme: GoogleFonts.pressStart2pTextTheme().apply(
@@ -54,16 +53,7 @@ class _AppState extends State<App> {
           displayColor: Colors.white,
         ),
       ),
-      home: _isLoading ? const LoadingScreen(): Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[
-
-            ],
-          ),
-        ),
-      ),
+      home: _isLoading ? const LoadingScreen() : MainScreen(),
     );
   }
 }
