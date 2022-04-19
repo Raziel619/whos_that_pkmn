@@ -52,6 +52,7 @@ class _AppState extends State<App> {
           bodyColor: Colors.white,
           displayColor: Colors.white,
         ),
+
       ),
       home: _isLoading ? const LoadingScreen() : MainScreen(),
     );
