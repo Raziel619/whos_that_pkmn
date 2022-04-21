@@ -14,6 +14,25 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  String _image =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/132.png";
+  ColorFilter _bw_filter = ColorFilter.matrix(AppArrays.BW_FILTER);
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 10000), () {
+      setState(() {
+        // _image =
+        //     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/1.png";
+        _bw_filter = ColorFilter.mode(
+          Colors.transparent,
+          BlendMode.multiply,
+        );
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(
@@ -54,13 +73,12 @@ class _MainScreenState extends State<MainScreen> {
                             Radius.circular(20),
                           )),
                       child: ColorFiltered(
-                        colorFilter: ColorFilter.matrix(AppArrays.BW_FILTER),
+                        colorFilter: _bw_filter,
                         child: FadeInImage.memoryNetwork(
                           width: (MediaQuery.of(context).size.width * 0.6),
                           placeholder: Uint8List(2),
                           fit: BoxFit.fitHeight,
-                          image:
-                              "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/132.png",
+                          image: _image,
                         ),
                       ),
                     ),
