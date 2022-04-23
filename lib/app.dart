@@ -33,13 +33,16 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     _pokeProvider = Provider.of<PokeProvider>(context, listen: false);
-    _pokeProvider.initialize();
-
-    Future.delayed(const Duration(milliseconds: 5000), () {
+    initialize().then((value) {
       setState(() {
         _isLoading = false;
       });
     });
+  }
+
+  Future<void> initialize() async {
+    await _pokeProvider.initialize();
+    await Future.delayed(Duration(seconds: 3));
   }
 
   @override
@@ -52,7 +55,6 @@ class _AppState extends State<App> {
           bodyColor: Colors.white,
           displayColor: Colors.white,
         ),
-
       ),
       home: _isLoading ? const LoadingScreen() : MainScreen(),
     );

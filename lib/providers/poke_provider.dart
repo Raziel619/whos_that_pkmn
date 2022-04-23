@@ -14,6 +14,6 @@ class PokeProvider with ChangeNotifier{
     final jsonPokedex =
     await rootBundle.loadString(AssetPaths.JSON_POKEDEX);
     final pokedexData = PokedexData.fromJson(jsonDecode(jsonPokedex));
-    print(pokedexData.pokemon.length);
+
   }
 }
