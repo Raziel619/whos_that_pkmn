@@ -79,6 +79,7 @@ class LocalStorage{
 
 enum LSKey{
   playHistory,
+  remainingPokemon,
   todayQuizzes,
 }
 
