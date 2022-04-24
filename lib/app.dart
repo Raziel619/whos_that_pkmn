@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:whose_that_pkmn/constants/asset_paths.dart';
 import 'package:whose_that_pkmn/providers/poke_provider.dart';
 import 'package:whose_that_pkmn/screens/loading_screen.dart';
 import 'package:whose_that_pkmn/screens/main_screen.dart';
+import 'package:whose_that_pkmn/services/local_storage.dart';
 
 class App extends StatefulWidget {
   const App({Key? key, required this.title}) : super(key: key);
@@ -41,6 +41,7 @@ class _AppState extends State<App> {
   }
 
   Future<void> initialize() async {
+    await LocalStorage.initialize();
     await _pokeProvider.initialize();
     await Future.delayed(Duration(seconds: 3));
   }
