@@ -84,9 +84,10 @@ class PokeProvider with ChangeNotifier {
 
     // First check if today is a new data to build new quizzes
     final key = buildIdFromDate(DateTime.now());
-    if(_todayQuizzes.records.containsKey(key)){
+    if (_todayQuizzes.records.containsKey(key)) {
       return;
-    }else{
+    } else {
+      // New day, save todayQuizzes into history and clear it
       _playHistory.records.addAll(_todayQuizzes.records);
       _todayQuizzes = PlayHistory({});
       await _saveTodayQuizzes();
@@ -101,12 +102,11 @@ class PokeProvider with ChangeNotifier {
       _remainingPokemon.pokemon.removeAt(index);
     }
 
-
     final playRecords = await convertDexToPlayRecords(quizzes);
     _todayQuizzes = PlayHistory({key: playRecords});
 
     // If the remaining pokemon count is less than 3, reset it
-    if(_remainingPokemon.pokemon.length <= 3){
+    if (_remainingPokemon.pokemon.length <= 3) {
       await _resetRemainingPokemon();
     }
 
