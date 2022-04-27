@@ -37,6 +37,14 @@ class PokeProvider with ChangeNotifier {
     }
   }
 
+  //region Play History
+  Future<void> _savePlayHistory() async {
+    final jsonString = jsonEncode(_playHistory.toJson());
+    await LocalStorage.saveLSKey(LSKey.playHistory, jsonString);
+  }
+
+  //endregion
+
   //region Remaining Pokemon
 
   /// Fetches remaining pokemon from local storage
@@ -63,13 +71,27 @@ class PokeProvider with ChangeNotifier {
 
   //endregion
 
+  //region Today Quizzes
+
   Future<void> _buildTodayQuizzes() async {
     // Reading Today Quizzes
     final jsonTodayQuizzes = LocalStorage.retrieveLSKey(LSKey.todayQuizzes);
     _todayQuizzes = jsonTodayQuizzes == null
         ? PlayHistory({})
         : PlayHistory.fromJson(jsonDecode(jsonTodayQuizzes));
+
+    print(_todayQuizzes.toJson());
+
     // First check if today is a new data to build new quizzes
+    final key = buildIdFromDate(DateTime.now());
+    if(_todayQuizzes.records.containsKey(key)){
+      return;
+    }else{
+      _playHistory.records.addAll(_todayQuizzes.records);
+      _todayQuizzes = PlayHistory({});
+      await _saveTodayQuizzes();
+      await _savePlayHistory();
+    }
 
     // Pull 3 random pokemon from pokedex for today
     final quizzes = List<PokedexRecord>.empty(growable: true);
@@ -79,12 +101,26 @@ class PokeProvider with ChangeNotifier {
       _remainingPokemon.pokemon.removeAt(index);
     }
 
-    final key = buildIdFromDate(DateTime.now());
+
     final playRecords = await convertDexToPlayRecords(quizzes);
     _todayQuizzes = PlayHistory({key: playRecords});
 
-    print(_remainingPokemon.pokemon);
+    // If the remaining pokemon count is less than 3, reset it
+    if(_remainingPokemon.pokemon.length <= 3){
+      await _resetRemainingPokemon();
+    }
+
+    // Save object changes to local storage
+    await _saveRemainingPokemon();
+    await _saveTodayQuizzes();
   }
+
+  Future<void> _saveTodayQuizzes() async {
+    final jsonString = jsonEncode(_todayQuizzes.toJson());
+    await LocalStorage.saveLSKey(LSKey.todayQuizzes, jsonString);
+  }
+
+  //endregion
 
   Future<Pokedex> _getFullPokedex() async {
     final jsonPokedex = await rootBundle.loadString(AssetPaths.JSON_POKEDEX);

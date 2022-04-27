@@ -15,4 +15,9 @@ class PlayRecord {
       _$PlayRecordFromJson(json);
 
   Map<String, dynamic> toJson() => _$PlayRecordToJson(this);
+
+  @override
+  String toString() {
+    return "(${pokemon.name} - $sprite_url - solved: ${solved.toString()})";
+  }
 }
