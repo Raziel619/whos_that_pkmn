@@ -9,6 +9,7 @@ class AssetPaths {
 
   //region Imgs
   static const String IMG_BG_MAIN = "assets/imgs/bg_main.jpg";
+  static const String IMG_PLACEHOLDER = "assets/imgs/placeholder.png";
   //endregion
 
   //region Json

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +16,9 @@ class PokeProvider with ChangeNotifier {
   late PlayHistory _playHistory;
   late PlayHistory _todayQuizzes;
   late Pokedex _remainingPokemon;
+  late Uint8List _pokeballIcon;
+
+  Uint8List get pokeballIcon => _pokeballIcon;
 
   Future<void> initialize() async {
     print("Initializing PokeProvider");
@@ -28,6 +32,11 @@ class PokeProvider with ChangeNotifier {
       _playHistory = jsonPlayHistory == null
           ? PlayHistory({})
           : PlayHistory.fromJson(jsonDecode(jsonPlayHistory));
+
+      // Reading pokeball asset image to uintlist
+      _pokeballIcon = (await rootBundle.load(AssetPaths.IMG_PLACEHOLDER))
+          .buffer
+          .asUint8List();
 
       await _buildTodayQuizzes();
     } catch (e) {

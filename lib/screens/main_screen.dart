@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whose_that_pkmn/constants/app_arrays.dart';
+import 'package:whose_that_pkmn/providers/poke_provider.dart';
 
 import '../constants/asset_paths.dart';
 
@@ -18,10 +21,12 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/132.png";
   ColorFilter _bw_filter = ColorFilter.matrix(AppArrays.BW_FILTER);
   bool _isKeyboardOpen = false;
+  late PokeProvider _pokeProvider;
 
   @override
   void initState() {
     super.initState();
+    _pokeProvider = Provider.of<PokeProvider>(context, listen: false);
     WidgetsBinding.instance?.addObserver(this);
     Future.delayed(const Duration(milliseconds: 10000), () {
       setState(() {
@@ -89,7 +94,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   colorFilter: _bw_filter,
                   child: FadeInImage.memoryNetwork(
                     width: (MediaQuery.of(context).size.width * 0.6),
-                    placeholder: Uint8List(256),
+                    placeholder: _pokeProvider.pokeballIcon,
+                    placeholderScale: 0.1,
                     fit: BoxFit.fitHeight,
                     image: _image,
                   ),
