@@ -5,6 +5,7 @@ import 'package:whose_that_pkmn/providers/poke_provider.dart';
 import 'package:whose_that_pkmn/screens/loading_screen.dart';
 import 'package:whose_that_pkmn/screens/main_screen.dart';
 import 'package:whose_that_pkmn/services/local_storage.dart';
+import 'package:flutter_app_popup_ad/flutter_app_popup_ad.dart';
 
 class App extends StatefulWidget {
   const App({Key? key, required this.title}) : super(key: key);
@@ -32,6 +33,13 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      final flutterAppPopupAd = FlutterAppPopupAd();
+      flutterAppPopupAd.thisAppId = "com.raziel619.whose_that_pkmn";
+      await flutterAppPopupAd
+          .initializeWithUrl("https://dev.raziel619.com/ariel/api/getpreviews");
+      await flutterAppPopupAd.determineAndShowAd(context, freq: 2);
+    });
     _pokeProvider = Provider.of<PokeProvider>(context, listen: false);
     initialize().then((value) {
       setState(() {
