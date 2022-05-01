@@ -43,7 +43,7 @@ dependencies:
   delayed_display: ^2.0.0
   shared_preferences: ^2.0.13
   intl: ^0.17.0
-  flutter_app_popup_ad: ^0.0.3
+  flutter_app_popup_ad: ^0.0.4
   http: ^0.13.4
 
 
