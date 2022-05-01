@@ -13,6 +13,7 @@ class AssetPaths {
   //endregion
 
   //region Json
+  static const String JSON_DITTO = "assets/json/ditto.json";
   static const String JSON_POKEDEX = "assets/json/pokedex.json";
   //endregion
 

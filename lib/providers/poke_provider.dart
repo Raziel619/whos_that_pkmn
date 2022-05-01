@@ -19,6 +19,7 @@ class PokeProvider with ChangeNotifier {
   late Uint8List _pokeballIcon;
 
   Uint8List get pokeballIcon => _pokeballIcon;
+  PlayHistory get todayQuizzes => _todayQuizzes;
 
   Future<void> initialize() async {
     print("Initializing PokeProvider");
@@ -40,10 +41,15 @@ class PokeProvider with ChangeNotifier {
 
       await _buildTodayQuizzes();
     } catch (e) {
-      print("Error initializing PlayHistory/TodayQuizzes");
+      print("Error initializing PlayHistory/TodayQuizzes - ${e.toString()}");
       _playHistory = PlayHistory({});
       _todayQuizzes = PlayHistory({});
     }
+  }
+
+  Future<dynamic> _getExamplePokemon() async {
+    final jsonDitto = await rootBundle.loadString(AssetPaths.JSON_DITTO);
+    return jsonDecode(jsonDitto);
   }
 
   //region Play History
@@ -89,7 +95,7 @@ class PokeProvider with ChangeNotifier {
         ? PlayHistory({})
         : PlayHistory.fromJson(jsonDecode(jsonTodayQuizzes));
 
-    print(_todayQuizzes.toJson());
+
 
     // First check if today is a new data to build new quizzes
     final key = buildIdFromDate(DateTime.now());

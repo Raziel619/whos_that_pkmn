@@ -38,7 +38,7 @@ class _AppState extends State<App> {
       flutterAppPopupAd.thisAppId = "com.raziel619.whose_that_pkmn";
       await flutterAppPopupAd
           .initializeWithUrl("https://dev.raziel619.com/ariel/api/getpreviews");
-      await flutterAppPopupAd.determineAndShowAd(context, freq: 2);
+      await flutterAppPopupAd.determineAndShowAd(context, freq: 3);
     });
     _pokeProvider = Provider.of<PokeProvider>(context, listen: false);
     initialize().then((value) {
@@ -51,6 +51,7 @@ class _AppState extends State<App> {
   Future<void> initialize() async {
     await LocalStorage.initialize();
     await _pokeProvider.initialize();
+    print(_pokeProvider.todayQuizzes.toJson());
     await Future.delayed(Duration(seconds: 3));
   }
 

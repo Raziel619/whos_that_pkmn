@@ -20,4 +20,6 @@ class PlayRecord {
   String toString() {
     return "(${pokemon.name} - $sprite_url - solved: ${solved.toString()})";
   }
+
+
 }
