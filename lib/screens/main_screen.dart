@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whose_that_pkmn/constants/app_arrays.dart';
 import 'package:whose_that_pkmn/providers/poke_provider.dart';
 
+import '../constants/app_colors.dart';
 import '../constants/asset_paths.dart';
 
 class MainScreen extends StatefulWidget {
@@ -107,6 +109,18 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               ),
             ],
           ),
+        ),
+        bottomNavigationBar: CurvedNavigationBar(
+          backgroundColor: Colors.transparent,
+          color: AppColors.PRIMAR_PINK_COMP,
+          items: const <Widget>[
+            Icon(Icons.question_mark_rounded, size: 30),
+            Icon(Icons.leaderboard_rounded, size: 30),
+            Icon(Icons.list_alt_rounded, size: 30)
+          ],
+          onTap: (index) {
+            print("tapped");
+          },
         ),
       ),
     );
