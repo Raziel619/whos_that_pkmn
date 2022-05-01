@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:whose_that_pkmn/models/play_record.dart';
 import 'package:whose_that_pkmn/models/pokedex_record.dart';
 import 'package:whose_that_pkmn/services/local_storage.dart';
 
@@ -17,9 +18,10 @@ class PokeProvider with ChangeNotifier {
   late PlayHistory _todayQuizzes;
   late Pokedex _remainingPokemon;
   late Uint8List _pokeballIcon;
+  String todaysKey = buildIdFromDate(DateTime.now());
 
   Uint8List get pokeballIcon => _pokeballIcon;
-  PlayHistory get todayQuizzes => _todayQuizzes;
+  List<PlayRecord> get todayQuizzes => _todayQuizzes.records[todaysKey] ?? [];
 
   Future<void> initialize() async {
     print("Initializing PokeProvider");
@@ -98,8 +100,8 @@ class PokeProvider with ChangeNotifier {
 
 
     // First check if today is a new data to build new quizzes
-    final key = buildIdFromDate(DateTime.now());
-    if (_todayQuizzes.records.containsKey(key)) {
+
+    if (_todayQuizzes.records.containsKey(todaysKey)) {
       return;
     } else {
       // New day, save todayQuizzes into history and clear it
@@ -118,7 +120,7 @@ class PokeProvider with ChangeNotifier {
     }
 
     final playRecords = await convertDexToPlayRecords(quizzes);
-    _todayQuizzes = PlayHistory({key: playRecords});
+    _todayQuizzes = PlayHistory({todaysKey: playRecords});
 
     // If the remaining pokemon count is less than 3, reset it
     if (_remainingPokemon.pokemon.length <= 3) {

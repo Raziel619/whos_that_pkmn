@@ -51,7 +51,7 @@ class _AppState extends State<App> {
   Future<void> initialize() async {
     await LocalStorage.initialize();
     await _pokeProvider.initialize();
-    print(_pokeProvider.todayQuizzes.toJson());
+    print(_pokeProvider.todayQuizzes);
     await Future.delayed(Duration(seconds: 3));
   }
 

@@ -17,8 +17,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
-  String _image =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/132.png";
+  String _image = "";
   ColorFilter _bw_filter = ColorFilter.matrix(AppArrays.BW_FILTER);
   bool _isKeyboardOpen = false;
   late PokeProvider _pokeProvider;
@@ -27,11 +26,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     _pokeProvider = Provider.of<PokeProvider>(context, listen: false);
+    _image = _pokeProvider.todayQuizzes[0].sprite_url;
     WidgetsBinding.instance?.addObserver(this);
     Future.delayed(const Duration(milliseconds: 10000), () {
       setState(() {
-        // _image =
-        //     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/1.png";
         _bw_filter = ColorFilter.mode(
           Colors.transparent,
           BlendMode.multiply,
