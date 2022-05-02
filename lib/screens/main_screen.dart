@@ -40,8 +40,10 @@ class _MainScreenState extends State<MainScreen> {
           }
         }),
         bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.transparent,
-          color: AppColors.PRIMAR_PINK_COMP,
+          backgroundColor: _selectedIndex == 0
+              ? AppColors.GREY_1.withOpacity(0.85)
+              : Colors.transparent,
+          color: AppColors.PRIMARY_PINK_COMP,
           items: const <Widget>[
             Icon(Icons.question_mark_rounded, size: 30),
             Icon(Icons.leaderboard_rounded, size: 30),

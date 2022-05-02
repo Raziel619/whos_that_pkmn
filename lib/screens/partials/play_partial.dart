@@ -1,5 +1,7 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
+import 'package:whose_that_pkmn/constants/app_colors.dart';
+import 'package:whose_that_pkmn/models/play_record.dart';
 import 'package:whose_that_pkmn/providers/poke_provider.dart';
 import '../../constants/app_arrays.dart';
 
@@ -16,11 +18,14 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
   String _image = "";
   ColorFilter _bw_filter = ColorFilter.matrix(AppArrays.BW_FILTER);
   bool _isKeyboardOpen = false;
+  final _textEditingController = TextEditingController();
+  late PlayRecord _currentPokeGuess;
 
   @override
   void initState() {
     super.initState();
     _image = widget.pokeProvider.todayQuizzes[0].sprite_url;
+    _currentPokeGuess = widget.pokeProvider.todayQuizzes[0];
     WidgetsBinding.instance?.addObserver(this);
     // Future.delayed(const Duration(milliseconds: 10000), () {
     //   setState(() {
@@ -87,10 +92,21 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
               ),
             ),
           ),
-          TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Enter a search term',
+          _isKeyboardOpen
+              ? Expanded(child: SizedBox.shrink())
+              : SizedBox.shrink(),
+          Expanded(
+            child: Container(
+              color: AppColors.GREY_1.withOpacity(0.85),
+              child: TextField(
+                style: TextStyle(letterSpacing: 4),
+                maxLength: _currentPokeGuess.pokemon.name.length,
+                controller: _textEditingController,
+                textAlign: TextAlign.center,
+                // decoration: InputDecoration(
+                //   hintText: 'Enter a search term',
+                // ),
+              ),
             ),
           ),
         ],
