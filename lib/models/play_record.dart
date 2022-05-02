@@ -7,9 +7,11 @@ part 'play_record.g.dart';
 class PlayRecord {
   final PokedexRecord pokemon;
   final String sprite_url;
-  bool solved;
+  bool attempted;
+  bool wasCorrect;
 
-  PlayRecord(this.pokemon, this.sprite_url, {this.solved = false});
+  PlayRecord(this.pokemon, this.sprite_url,
+      {this.attempted = false, this.wasCorrect = false});
 
   factory PlayRecord.fromJson(Map<String, dynamic> json) =>
       _$PlayRecordFromJson(json);
@@ -18,8 +20,6 @@ class PlayRecord {
 
   @override
   String toString() {
-    return "(${pokemon.name} - $sprite_url - solved: ${solved.toString()})";
+    return "(${pokemon.name} - $sprite_url)";
   }
-
-
 }
