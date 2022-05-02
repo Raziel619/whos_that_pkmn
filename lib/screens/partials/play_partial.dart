@@ -46,14 +46,19 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
 
   @override
   void didChangeMetrics() {
-    final value = WidgetsBinding.instance?.window.viewInsets.bottom ?? 0;
-    setState(() {
-      _isKeyboardOpen = value > 0;
-    });
+    final _isOpen =
+        (WidgetsBinding.instance?.window.viewInsets.bottom ?? 0) > 0;
+
+    if (_isKeyboardOpen != _isOpen) {
+      setState(() {
+        _isKeyboardOpen = _isOpen;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.pokeProvider.todayQuizzes);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -105,7 +110,8 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                   length: _currentPokeGuess.pokemon.name.length,
                   onChanged: (String value) {},
                   onCompleted: (String value) {
-                    print(value);
+                    widget.pokeProvider.attemptPokeGuess(
+                        _currentPokeGuess.pokemon.name, value);
                   },
                   pinTheme: PinTheme(
                       inactiveColor: AppColors.TEXT_DARK,

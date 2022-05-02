@@ -22,6 +22,6 @@ class PlayRecord {
 
   @override
   String toString() {
-    return "(${pokemon.name} - $sprite_url)";
+    return "(${pokemon.name} - $attempted - $wasCorrect)";
   }
 }

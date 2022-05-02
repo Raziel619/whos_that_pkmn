@@ -54,6 +54,18 @@ class PokeProvider with ChangeNotifier {
     return jsonDecode(jsonDitto);
   }
 
+  //region Notify Listeners Methods
+
+  void attemptPokeGuess(String name, String guess){
+    final index = todayQuizzes.indexWhere((e) => e.pokemon.name == name);
+    _todayQuizzes.records[todaysKey]![index].attempted = true;
+    _todayQuizzes.records[todaysKey]![index].wasCorrect = (name == guess);
+    _saveTodayQuizzes();
+    notifyListeners();
+  }
+
+  //endregion
+
   //region Play History
   Future<void> _savePlayHistory() async {
     final jsonString = jsonEncode(_playHistory.toJson());
