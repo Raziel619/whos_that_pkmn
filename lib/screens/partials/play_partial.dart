@@ -27,8 +27,8 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _image = widget.pokeProvider.todayQuizzes[0].sprite_url;
-    _currentPokeGuess = widget.pokeProvider.todayQuizzes[0];
+    _currentPokeGuess = widget.pokeProvider.currentPokeQuiz()!;
+    _image = _currentPokeGuess.sprite_url;
     _textFieldWidth = _currentPokeGuess.pokemon.name.length > 6 ? 30 : null;
     WidgetsBinding.instance?.addObserver(this);
     // Future.delayed(const Duration(milliseconds: 10000), () {

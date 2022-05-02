@@ -53,7 +53,6 @@ class _AppState extends State<App> {
     await LocalStorage.initialize();
     await LocalStorage.deleteAll();
     await _pokeProvider.initialize();
-    print(_pokeProvider.todayQuizzes);
     await Future.delayed(Duration(seconds: 3));
   }
 

@@ -101,6 +101,13 @@ class PokeProvider with ChangeNotifier {
   //endregion
 
   //region Today Quizzes
+  PlayRecord? currentPokeQuiz(){
+    return todayQuizzes.firstWhere((e) => !e.attempted);
+  }
+
+  bool isTodayQuizzesComplete(){
+    return !(todayQuizzes.any((e) => !e.attempted));
+  }
 
   Future<void> _buildTodayQuizzes() async {
     // Reading Today Quizzes

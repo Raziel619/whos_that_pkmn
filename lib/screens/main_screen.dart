@@ -30,9 +30,15 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         backgroundColor: Colors.white.withOpacity(0.2),
         body: Consumer<PokeProvider>(builder: (context, pokeProvider, child) {
+          final key = UniqueKey();
           switch (_selectedIndex) {
             case 0:
-              return PlayPartial(pokeProvider);
+              return pokeProvider.isTodayQuizzesComplete()
+                  ? Text("Quizzes complete")
+                  : PlayPartial(
+                      pokeProvider,
+                      key: key,
+                    );
             case 1:
               return Text("Leaderboard");
             default:
