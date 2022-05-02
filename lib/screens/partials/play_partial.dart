@@ -40,9 +40,7 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
 
   @override
   void didChangeMetrics() {
-    if (!mounted) return;
-
-    final value = MediaQuery.of(context).viewInsets.bottom;
+    final value = WidgetsBinding.instance?.window.viewInsets.bottom ?? 0;
     setState(() {
       _isKeyboardOpen = value > 0;
     });
