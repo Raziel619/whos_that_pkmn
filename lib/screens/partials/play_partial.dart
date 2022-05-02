@@ -1,5 +1,6 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:whose_that_pkmn/constants/app_colors.dart';
 import 'package:whose_that_pkmn/models/play_record.dart';
 import 'package:whose_that_pkmn/providers/poke_provider.dart';
@@ -97,17 +98,19 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
               : SizedBox.shrink(),
           Expanded(
             child: Container(
-              color: AppColors.GREY_1.withOpacity(0.85),
-              child: TextField(
-                style: TextStyle(letterSpacing: 4),
-                maxLength: _currentPokeGuess.pokemon.name.length,
-                controller: _textEditingController,
-                textAlign: TextAlign.center,
-                // decoration: InputDecoration(
-                //   hintText: 'Enter a search term',
-                // ),
-              ),
-            ),
+                color: AppColors.GREY_1.withOpacity(0.85),
+                child: PinCodeTextField(
+                  appContext: context,
+                  cursorColor: AppColors.TEXT_DARK,
+                  length: _currentPokeGuess.pokemon.name.length,
+                  onChanged: (String value) {},
+                  onCompleted: (String value) {
+                    print(value);
+                  },
+                  pinTheme: PinTheme(
+                      inactiveColor: AppColors.TEXT_DARK,
+                      selectedColor: AppColors.TEXT_DARK),
+                )),
           ),
         ],
       ),
