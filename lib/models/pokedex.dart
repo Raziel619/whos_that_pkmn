@@ -24,7 +24,7 @@ class Pokedex {
     return names;
   }
 
-  PokedexRecord search_records(String name) {
+  PokedexRecord searchRecords(String name) {
     return pokemon.firstWhere((el) => el.name == name);
   }
 }

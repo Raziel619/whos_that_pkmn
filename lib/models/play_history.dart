@@ -14,7 +14,7 @@ class PlayHistory {
 
   Map<String, dynamic> toJson() => _$PlayHistoryToJson(this);
 
-  List<String> record_names() {
+  List<String> recordNames() {
     var names = List<String>.empty(growable: true);
 
     records.forEach((date, pkmns) {

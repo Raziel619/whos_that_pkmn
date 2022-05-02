@@ -63,7 +63,7 @@ class LocalStorage{
 
 //region Delete Functions
   static Future<bool?> deleteAll() async {
-    await _storage.clear();
+    return await _storage.clear();
   }
 
   static Future<void> deleteLSKey(LSKey key) async {
