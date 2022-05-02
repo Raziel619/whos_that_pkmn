@@ -16,6 +16,8 @@ class PlayPartial extends StatefulWidget {
 }
 
 class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
+  double? _textFieldWidth;
+  bool _textFieldEnabled = true;
   String _image = "";
   ColorFilter _bw_filter = ColorFilter.matrix(AppArrays.BW_FILTER);
   bool _isKeyboardOpen = false;
@@ -27,6 +29,7 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
     super.initState();
     _image = widget.pokeProvider.todayQuizzes[0].sprite_url;
     _currentPokeGuess = widget.pokeProvider.todayQuizzes[0];
+    _textFieldWidth = _currentPokeGuess.pokemon.name.length > 6 ? 30 : null;
     WidgetsBinding.instance?.addObserver(this);
     // Future.delayed(const Duration(milliseconds: 10000), () {
     //   setState(() {
@@ -104,16 +107,22 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
           Expanded(
             child: Container(
                 color: AppColors.GREY_1.withOpacity(0.85),
+                padding: EdgeInsets.symmetric(horizontal: 8),
                 child: PinCodeTextField(
+                  enabled: _textFieldEnabled,
                   appContext: context,
                   cursorColor: AppColors.TEXT_DARK,
                   length: _currentPokeGuess.pokemon.name.length,
                   onChanged: (String value) {},
                   onCompleted: (String value) {
+                    setState(() {
+                      _textFieldEnabled = false;
+                    });
                     widget.pokeProvider.attemptPokeGuess(
                         _currentPokeGuess.pokemon.name, value);
                   },
                   pinTheme: PinTheme(
+                      fieldWidth: _textFieldWidth,
                       inactiveColor: AppColors.TEXT_DARK,
                       selectedColor: AppColors.TEXT_DARK),
                 )),

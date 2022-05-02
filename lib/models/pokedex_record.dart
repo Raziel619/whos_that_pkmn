@@ -13,6 +13,4 @@ class PokedexRecord {
       _$PokedexRecordFromJson(json);
 
   Map<String, dynamic> toJson() => _$PokedexRecordToJson(this);
-
-
 }
