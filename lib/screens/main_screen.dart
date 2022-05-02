@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whos_that_pkmn/providers/poke_provider.dart';
 import 'package:whos_that_pkmn/screens/partials/play_partial.dart';
+import 'package:whos_that_pkmn/screens/partials/quiz_complete_partial.dart';
 import '../constants/app_colors.dart';
 import '../constants/asset_paths.dart';
 
@@ -48,34 +49,34 @@ class _MainScreenState extends State<MainScreen> {
         ),
       );
     });
-
   }
-  
-  Widget _determinePartial(PokeProvider pokeProvider){
+
+  Widget _determinePartial(PokeProvider pokeProvider) {
     final key = UniqueKey();
     switch (_selectedIndex) {
       case 0:
         return pokeProvider.isTodayQuizzesComplete()
-            ? Text("Quizzes complete")
+            ? QuizCompletePartial()
             : PlayPartial(
-          pokeProvider,
-          key: key,
-        );
+                pokeProvider,
+                key: key,
+              );
       case 1:
         return Text("Leaderboard");
       default:
         return Text("History");
     }
   }
-  
+
   Color _determineBottomNavColor(PokeProvider pokeProvider) {
     Color col = Colors.transparent;
     if (_selectedIndex == 0) {
       if (!pokeProvider.isTodayQuizzesComplete()) {
         col = AppColors.GREY_1.withOpacity(0.85);
+      } else {
+        col = Colors.black.withOpacity(0.8);
       }
     }
     return col;
   }
-
 }
