@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:whose_that_pkmn/models/pokedex_record.dart';
+import 'package:whos_that_pkmn/models/pokedex_record.dart';
 
 part 'play_record.g.dart';
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:whose_that_pkmn/constants/app_colors.dart';
-import 'package:whose_that_pkmn/providers/poke_provider.dart';
-import 'package:whose_that_pkmn/screens/loading_screen.dart';
-import 'package:whose_that_pkmn/screens/main_screen.dart';
-import 'package:whose_that_pkmn/services/local_storage.dart';
+import 'package:whos_that_pkmn/constants/app_colors.dart';
+import 'package:whos_that_pkmn/providers/poke_provider.dart';
+import 'package:whos_that_pkmn/screens/loading_screen.dart';
+import 'package:whos_that_pkmn/screens/main_screen.dart';
+import 'package:whos_that_pkmn/services/local_storage.dart';
 import 'package:flutter_app_popup_ad/flutter_app_popup_ad.dart';
 
 class App extends StatefulWidget {
@@ -36,7 +36,7 @@ class _AppState extends State<App> {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       final flutterAppPopupAd = FlutterAppPopupAd();
-      flutterAppPopupAd.thisAppId = "com.raziel619.whose_that_pkmn";
+      flutterAppPopupAd.thisAppId = "com.raziel619.whos_that_pkmn";
       await flutterAppPopupAd
           .initializeWithUrl("https://dev.raziel619.com/ariel/api/getpreviews");
       await flutterAppPopupAd.determineAndShowAd(context, freq: 3);

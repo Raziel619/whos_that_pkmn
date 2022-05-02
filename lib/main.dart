@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:whose_that_pkmn/app.dart';
-import 'package:whose_that_pkmn/providers/ad_provider.dart';
-import 'package:whose_that_pkmn/providers/poke_provider.dart';
+import 'package:whos_that_pkmn/app.dart';
+import 'package:whos_that_pkmn/providers/ad_provider.dart';
+import 'package:whos_that_pkmn/providers/poke_provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [

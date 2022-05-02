@@ -1,9 +1,9 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:whose_that_pkmn/constants/app_colors.dart';
-import 'package:whose_that_pkmn/models/play_record.dart';
-import 'package:whose_that_pkmn/providers/poke_provider.dart';
+import 'package:whos_that_pkmn/constants/app_colors.dart';
+import 'package:whos_that_pkmn/models/play_record.dart';
+import 'package:whos_that_pkmn/providers/poke_provider.dart';
 import '../../constants/app_arrays.dart';
 
 class PlayPartial extends StatefulWidget {

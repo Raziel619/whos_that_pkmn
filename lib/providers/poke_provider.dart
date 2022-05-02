@@ -4,9 +4,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:whose_that_pkmn/models/play_record.dart';
-import 'package:whose_that_pkmn/models/pokedex_record.dart';
-import 'package:whose_that_pkmn/services/local_storage.dart';
+import 'package:whos_that_pkmn/models/play_record.dart';
+import 'package:whos_that_pkmn/models/pokedex_record.dart';
+import 'package:whos_that_pkmn/services/local_storage.dart';
 
 import '../constants/asset_paths.dart';
 import '../models/play_history.dart';

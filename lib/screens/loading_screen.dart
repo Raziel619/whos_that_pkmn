@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:whose_that_pkmn/constants/app_colors.dart';
-import 'package:whose_that_pkmn/constants/asset_paths.dart';
+import 'package:whos_that_pkmn/constants/app_colors.dart';
+import 'package:whos_that_pkmn/constants/asset_paths.dart';
 
 class LoadingScreen extends StatelessWidget{
   const LoadingScreen({Key? key}) : super(key: key);

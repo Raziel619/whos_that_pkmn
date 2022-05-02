@@ -1,4 +1,4 @@
-package com.raziel619.whose_that_pkmn
+package com.raziel619.whos_that_pkmn
 
 import io.flutter.embedding.android.FlutterActivity
 

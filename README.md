@@ -1,4 +1,4 @@
-# whose_that_pkmn
+# whos_that_pkmn
 
 Who's That Pkmn?
 

@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:whose_that_pkmn/models/play_record.dart';
+import 'package:whos_that_pkmn/models/play_record.dart';
 
 part 'play_history.g.dart';
 
