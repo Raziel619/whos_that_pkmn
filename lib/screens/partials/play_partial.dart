@@ -93,7 +93,8 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                 )),
             child: Column(
               children: [
-                Text("Gen 3"),
+                if (_currentPokeGuess.generation != null)
+                  Text("Gen ${_currentPokeGuess.generation.toString()}"),
                 SizedBox(
                   height: 10,
                 ),

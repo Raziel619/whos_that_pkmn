@@ -1,7 +1,8 @@
 import 'dart:convert';
-
+import 'package:numerus/numerus.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:whos_that_pkmn/constants/urls.dart';
 import '../models/play_record.dart';
 import '../models/pokedex_record.dart';
 
@@ -17,13 +18,25 @@ Future<List<PlayRecord>> convertDexToPlayRecords(
     List<PokedexRecord> records) async {
   List<PlayRecord> playRecords = List<PlayRecord>.empty(growable: true);
   for (var record in records) {
+    // Getting sprite url
     final pokemonData = await http.get(Uri.parse(record.url));
     final spriteUrl = extractSpriteUrl(jsonDecode(pokemonData.body));
-    final playRecord = PlayRecord(record, spriteUrl ?? "");
+
+    // Getting generation
+    final speciesUrl = Urls.POKEAPI_SPECIES + record.name;
+    final pokemonSpecies = await http.get(Uri.parse(speciesUrl));
+    final gen = extractGeneration(jsonDecode(pokemonSpecies.body));
+    final playRecord = PlayRecord(record, spriteUrl ?? "", gen);
     playRecords.add(playRecord);
   }
 
   return playRecords;
+}
+
+int? extractGeneration(dynamic response) {
+  String gen = response["generation"]["name"];
+  gen = gen.replaceAll("generation-", "").toUpperCase();
+  return gen.toRomanNumeralValue();
 }
 
 String? extractSpriteUrl(dynamic response) {

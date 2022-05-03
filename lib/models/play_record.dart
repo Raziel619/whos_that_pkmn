@@ -9,10 +9,11 @@ part 'play_record.g.dart';
 class PlayRecord {
   final PokedexRecord pokemon;
   final String sprite_url;
+  final int? generation;
   bool attempted;
   bool wasCorrect;
 
-  PlayRecord(this.pokemon, this.sprite_url,
+  PlayRecord(this.pokemon, this.sprite_url, this.generation,
       {this.attempted = false, this.wasCorrect = false});
 
   factory PlayRecord.fromJson(Map<String, dynamic> json) =>
