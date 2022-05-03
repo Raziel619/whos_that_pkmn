@@ -37,7 +37,6 @@ class _MainScreenState extends State<MainScreen> {
             color: AppColors.PRIMARY_PINK_COMP,
             items: const <Widget>[
               Icon(Icons.question_mark_rounded, size: 30),
-              Icon(Icons.leaderboard_rounded, size: 30),
               Icon(Icons.list_alt_rounded, size: 30)
             ],
             onTap: (index) {

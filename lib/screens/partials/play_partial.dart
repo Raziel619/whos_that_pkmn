@@ -18,6 +18,7 @@ class PlayPartial extends StatefulWidget {
 class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
   double? _textFieldWidth;
   bool _textFieldEnabled = true;
+  bool _showName = false;
   String _image = "";
   ColorFilter _bw_filter = ColorFilter.matrix(AppArrays.BW_FILTER);
   bool _isKeyboardOpen = false;
@@ -90,15 +91,26 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 )),
-            child: ColorFiltered(
-              colorFilter: _bw_filter,
-              child: FadeInImage.memoryNetwork(
-                width: (MediaQuery.of(context).size.width * 0.6),
-                placeholder: widget.pokeProvider.pokeballIcon,
-                placeholderScale: 0.1,
-                fit: BoxFit.fitHeight,
-                image: _image,
-              ),
+            child: Column(
+              children: [
+                Text("Gen 3"),
+                SizedBox(
+                  height: 10,
+                ),
+                _showName
+                    ? Text(_currentPokeGuess.pokemon.name)
+                    : SizedBox.shrink(),
+                ColorFiltered(
+                  colorFilter: _bw_filter,
+                  child: FadeInImage.memoryNetwork(
+                    width: (MediaQuery.of(context).size.width * 0.6),
+                    placeholder: widget.pokeProvider.pokeballIcon,
+                    placeholderScale: 0.1,
+                    fit: BoxFit.fitHeight,
+                    image: _image,
+                  ),
+                ),
+              ],
             ),
           ),
           _isKeyboardOpen
@@ -117,9 +129,17 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                   onCompleted: (String value) {
                     setState(() {
                       _textFieldEnabled = false;
+                      _showName = true;
+                      _bw_filter = ColorFilter.mode(
+                        Colors.transparent,
+                        BlendMode.multiply,
+                      );
                     });
-                    widget.pokeProvider.attemptPokeGuess(
-                        _currentPokeGuess.pokemon.name, value);
+
+                    Future.delayed(const Duration(milliseconds: 10000), () {
+                      widget.pokeProvider.attemptPokeGuess(
+                          _currentPokeGuess.pokemon.name, value);
+                    });
                   },
                   pinTheme: PinTheme(
                       fieldWidth: _textFieldWidth,
