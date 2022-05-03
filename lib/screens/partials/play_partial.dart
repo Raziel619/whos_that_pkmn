@@ -4,6 +4,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:whos_that_pkmn/constants/app_colors.dart';
 import 'package:whos_that_pkmn/models/play_record.dart';
 import 'package:whos_that_pkmn/providers/poke_provider.dart';
+import 'package:whos_that_pkmn/widgets/buttons/primary_button.dart';
 import '../../constants/app_arrays.dart';
 
 class PlayPartial extends StatefulWidget {
@@ -120,36 +121,56 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
           Expanded(
             child: Container(
                 color: AppColors.GREY_1.withOpacity(0.85),
+                width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                child: PinCodeTextField(
-                  enabled: _textFieldEnabled,
-                  appContext: context,
-                  cursorColor: AppColors.TEXT_DARK,
-                  length: _currentPokeGuess.pokemon.name.length,
-                  onChanged: (String value) {},
-                  onCompleted: (String value) {
-                    setState(() {
-                      _textFieldEnabled = false;
-                      _showName = true;
-                      _bw_filter = ColorFilter.mode(
-                        Colors.transparent,
-                        BlendMode.multiply,
-                      );
-                    });
-
-                    Future.delayed(const Duration(milliseconds: 10000), () {
-                      widget.pokeProvider.attemptPokeGuess(
-                          _currentPokeGuess.pokemon.name, value);
-                    });
-                  },
-                  pinTheme: PinTheme(
-                      fieldWidth: _textFieldWidth,
-                      inactiveColor: AppColors.TEXT_DARK,
-                      selectedColor: AppColors.TEXT_DARK),
-                )),
+                child: _showName
+                    ? _nextBtn(widget.pokeProvider)
+                    : PinCodeTextField(
+                        enabled: _textFieldEnabled,
+                        appContext: context,
+                        cursorColor: AppColors.TEXT_DARK,
+                        length: _currentPokeGuess.pokemon.name.length,
+                        onChanged: (String value) {},
+                        onCompleted: (String value) {
+                          setState(() {
+                            _textFieldEnabled = false;
+                            _showName = true;
+                            _bw_filter = ColorFilter.mode(
+                              Colors.transparent,
+                              BlendMode.multiply,
+                            );
+                          });
+                          widget.pokeProvider.attemptPokeGuess(
+                              _currentPokeGuess.pokemon.name, value);
+                        },
+                        pinTheme: PinTheme(
+                            fieldWidth: _textFieldWidth,
+                            inactiveColor: AppColors.TEXT_DARK,
+                            selectedColor: AppColors.TEXT_DARK),
+                      )),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _nextBtn(PokeProvider pokeProvider) {
+    final widget = pokeProvider.isTodayQuizzesComplete()
+        ? Text(
+            "Daily Quiz Complete!\n\n Come Back Tomorrow",
+            textAlign: TextAlign.center,
+          )
+        : PrimaryButton("Next", () {
+            pokeProvider.rebuildListeners();
+          });
+
+    return Column(
+      children: [
+        SizedBox(
+          height: 20,
+        ),
+        widget,
+      ],
     );
   }
 }

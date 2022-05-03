@@ -61,8 +61,13 @@ class PokeProvider with ChangeNotifier {
     _todayQuizzes.records[todaysKey]![index].attempted = true;
     _todayQuizzes.records[todaysKey]![index].wasCorrect = (name == guess);
     _saveTodayQuizzes();
+
+  }
+
+  void rebuildListeners(){
     notifyListeners();
   }
+
 
   //endregion
 

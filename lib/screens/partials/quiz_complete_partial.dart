@@ -18,13 +18,13 @@ class QuizCompletePartial extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            H1("See You \n Tomorrow!"),
+            H1("Daily Quiz \n Complete!"),
             Expanded(child: SizedBox.shrink()),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 20),
               child: Image.asset(AssetPaths.ICON_SNORLAX),
             ),
-            H1("Daily Quiz \n Complete!"),
+            H1("See You \n Tomorrow!"),
             Expanded(child: SizedBox.shrink()),
             PrimaryButton(
               "Share Result",
