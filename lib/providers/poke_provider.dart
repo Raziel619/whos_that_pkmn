@@ -21,7 +21,10 @@ class PokeProvider with ChangeNotifier {
   String todaysKey = buildIdFromDate(DateTime.now());
 
   Uint8List get pokeballIcon => _pokeballIcon;
+
   List<PlayRecord> get todayQuizzes => _todayQuizzes.records[todaysKey] ?? [];
+  PlayHistory get playHistory => _playHistory;
+  PlayHistory get todayQuizzesMap => _todayQuizzes;
 
   Future<void> initialize() async {
     print("Initializing PokeProvider");
@@ -56,18 +59,18 @@ class PokeProvider with ChangeNotifier {
 
   //region Notify Listeners Methods
 
-  void attemptPokeGuess(String name, String guess){
+  void attemptPokeGuess(String name, String guess) {
+    name = name.toLowerCase();
+    guess = guess.toLowerCase();
     final index = todayQuizzes.indexWhere((e) => e.pokemon.name == name);
     _todayQuizzes.records[todaysKey]![index].attempted = true;
     _todayQuizzes.records[todaysKey]![index].wasCorrect = (name == guess);
     _saveTodayQuizzes();
-
   }
 
-  void rebuildListeners(){
+  void rebuildListeners() {
     notifyListeners();
   }
-
 
   //endregion
 
@@ -106,11 +109,11 @@ class PokeProvider with ChangeNotifier {
   //endregion
 
   //region Today Quizzes
-  PlayRecord? currentPokeQuiz(){
+  PlayRecord? currentPokeQuiz() {
     return todayQuizzes.firstWhere((e) => !e.attempted);
   }
 
-  bool isTodayQuizzesComplete(){
+  bool isTodayQuizzesComplete() {
     return !(todayQuizzes.any((e) => !e.attempted));
   }
 
@@ -120,8 +123,6 @@ class PokeProvider with ChangeNotifier {
     _todayQuizzes = jsonTodayQuizzes == null
         ? PlayHistory({})
         : PlayHistory.fromJson(jsonDecode(jsonTodayQuizzes));
-
-
 
     // First check if today is a new data to build new quizzes
 

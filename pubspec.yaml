@@ -48,6 +48,7 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   pin_code_fields: ^7.4.0
   numerus: ^2.0.0
+  cached_network_image: ^3.2.0
 
 
 dev_dependencies:

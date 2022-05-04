@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:whos_that_pkmn/providers/poke_provider.dart';
+import 'package:whos_that_pkmn/screens/partials/history_partial.dart';
 import 'package:whos_that_pkmn/screens/partials/play_partial.dart';
 import 'package:whos_that_pkmn/screens/partials/quiz_complete_partial.dart';
 import '../constants/app_colors.dart';
@@ -60,22 +61,17 @@ class _MainScreenState extends State<MainScreen> {
                 pokeProvider,
                 key: key,
               );
-      case 1:
-        return Text("Leaderboard");
       default:
-        return Text("History");
+        return HistoryPartial(pokeProvider);
     }
   }
 
   Color _determineBottomNavColor(PokeProvider pokeProvider) {
-    Color col = Colors.transparent;
-    if (_selectedIndex == 0) {
-      if (!pokeProvider.isTodayQuizzesComplete()) {
-        col = AppColors.GREY_1.withOpacity(0.85);
-      } else {
-        col = Colors.black.withOpacity(0.8);
-      }
+    Color col = Colors.black.withOpacity(0.8);
+    if (_selectedIndex == 0 && !pokeProvider.isTodayQuizzesComplete()) {
+      col = AppColors.GREY_1.withOpacity(0.85);
     }
+
     return col;
   }
 }
