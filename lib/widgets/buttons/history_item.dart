@@ -55,6 +55,12 @@ class HistoryItem extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Text(playRecord.pokemon.name.capitalize()),
               )),
+              Image.asset(
+                playRecord.wasCorrect
+                    ? AssetPaths.ICON_CORRECT
+                    : AssetPaths.ICON_WRONG,
+                height: 30,
+              )
             ],
           )),
     );
