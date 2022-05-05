@@ -37,7 +37,8 @@ class HistoryPartial extends StatelessWidget {
     List<Widget> widgets = List.empty(growable: true);
 
     if (pokeProvider.todayQuizzes.any((e) => e.attempted == true)) {
-      widgets.addAll(_playHistoryWidgets(pokeProvider.todayQuizzesMap));
+      widgets.addAll(_playHistoryWidgets(pokeProvider.todayQuizzesMap,
+          onlyShowAttempted: true));
     }
 
     widgets.addAll(_playHistoryWidgets(pokeProvider.playHistory));
@@ -45,7 +46,8 @@ class HistoryPartial extends StatelessWidget {
     return widgets;
   }
 
-  List<Widget> _playHistoryWidgets(PlayHistory playHistory) {
+  List<Widget> _playHistoryWidgets(PlayHistory playHistory,
+      {bool onlyShowAttempted = false}) {
     List<Widget> widgets = List.empty(growable: true);
     playHistory.records.forEach((key, records) {
       widgets.add(Text(
@@ -54,6 +56,7 @@ class HistoryPartial extends StatelessWidget {
       ));
 
       for (PlayRecord record in records) {
+        if (onlyShowAttempted && !record.attempted) continue;
         widgets.add(HistoryItem(record));
       }
       widgets.add(SizedBox(height: 20));

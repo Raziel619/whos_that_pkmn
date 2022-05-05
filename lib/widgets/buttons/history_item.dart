@@ -29,7 +29,54 @@ class HistoryItem extends StatelessWidget {
       child: TextButton(
           style: _flatButtonStyle,
           onPressed: () {
-            print("pressed");
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return SimpleDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    clipBehavior: Clip.antiAlias,
+                    titlePadding: const EdgeInsets.all(0),
+                    title: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Image.asset(
+                              AssetPaths.ICON_CLOSE,
+                              height: 15,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text("Gen ${playRecord.generation.toString()}"),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(playRecord.pokemon.name.capitalize()),
+                        _image(250),
+                        (playRecord.wasCorrect)
+                            ? Text(
+                                "You Got This Correct!",
+                                textAlign: TextAlign.center,
+                                style:
+                                    TextStyle(color: AppColors.PRIMARY_GREEN),
+                              )
+                            : Text("You Got This Wrong",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: AppColors.PRIMARY_RED)),
+                        SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    ),
+                  );
+                });
           },
           child: Row(
             children: [
@@ -38,16 +85,7 @@ class HistoryItem extends StatelessWidget {
                   alignment: Alignment.center,
                   heightFactor: 0.65,
                   widthFactor: 0.65,
-                  child: CachedNetworkImage(
-                    imageUrl: playRecord.sprite_url,
-                    height: 80,
-                    placeholder: (context, url) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 25, vertical: 30),
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
+                  child: _image(80),
                 ),
               ),
               Expanded(
@@ -63,6 +101,19 @@ class HistoryItem extends StatelessWidget {
               )
             ],
           )),
+    );
+  }
+
+  Widget _image(double height) {
+    return CachedNetworkImage(
+      imageUrl: playRecord.sprite_url,
+      height: height,
+      placeholder: (context, url) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+        child: CircularProgressIndicator(),
+      ),
+      fit: BoxFit.fill,
+      errorWidget: (context, url, error) => Icon(Icons.error),
     );
   }
 }
