@@ -25,4 +25,19 @@ class PlayHistory {
 
     return names;
   }
+
+  Map<String, int> getStats() {
+    Map<String, int> stats = {"correct": 0, "wrong": 0};
+
+    records.forEach((key, value) {
+      for (var e in value) {
+        if (e.attempted) {
+          final key = e.wasCorrect ? "correct" : "wrong";
+          stats[key] = stats[key]! + 1;
+        }
+      }
+    });
+
+    return stats;
+  }
 }

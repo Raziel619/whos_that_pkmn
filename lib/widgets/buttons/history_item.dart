@@ -33,6 +33,7 @@ class HistoryItem extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return SimpleDialog(
+                    backgroundColor: _bgColor(),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     clipBehavior: Clip.antiAlias,
@@ -54,22 +55,27 @@ class HistoryItem extends StatelessWidget {
                         SizedBox(
                           height: 30,
                         ),
-                        Text("Gen ${playRecord.generation.toString()}"),
+                        Text(
+                          "Gen ${playRecord.generation.toString()}",
+                          style: _textStyle(),
+                        ),
                         SizedBox(
                           height: 10,
                         ),
-                        Text(playRecord.pokemon.name.capitalize()),
+                        Text(
+                          playRecord.pokemon.name.capitalize(),
+                          style: _textStyle(),
+                        ),
                         _image(250),
                         (playRecord.wasCorrect)
                             ? Text(
                                 "You Got This Correct!",
                                 textAlign: TextAlign.center,
-                                style:
-                                    TextStyle(color: AppColors.PRIMARY_GREEN),
+                                style: TextStyle(color: AppColors.TEXT_DARK),
                               )
                             : Text("You Got This Wrong",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: AppColors.PRIMARY_RED)),
+                                style: TextStyle(color: Colors.white)),
                         SizedBox(
                           height: 30,
                         ),
@@ -115,5 +121,16 @@ class HistoryItem extends StatelessWidget {
       fit: BoxFit.fill,
       errorWidget: (context, url, error) => Icon(Icons.error),
     );
+  }
+
+  Color _bgColor() {
+    return playRecord.wasCorrect
+        ? AppColors.PRIMARY_GREEN
+        : AppColors.PRIMARY_RED;
+  }
+
+  TextStyle _textStyle() {
+    return TextStyle(
+        color: playRecord.wasCorrect ? AppColors.TEXT_DARK : Colors.white);
   }
 }

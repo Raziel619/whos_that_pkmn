@@ -14,6 +14,7 @@ class HistoryPartial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(pokeProvider.playHistory.getStats());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.PRIMARY_PINK,
@@ -37,8 +38,7 @@ class HistoryPartial extends StatelessWidget {
     List<Widget> widgets = List.empty(growable: true);
 
     if (pokeProvider.todayQuizzes.any((e) => e.attempted == true)) {
-      widgets.addAll(_playHistoryWidgets(pokeProvider.todayQuizzesMap,
-          onlyShowAttempted: true));
+      widgets.addAll(_playHistoryWidgets(pokeProvider.todayQuizzesMap));
     }
 
     widgets.addAll(_playHistoryWidgets(pokeProvider.playHistory));
@@ -46,20 +46,22 @@ class HistoryPartial extends StatelessWidget {
     return widgets;
   }
 
-  List<Widget> _playHistoryWidgets(PlayHistory playHistory,
-      {bool onlyShowAttempted = false}) {
+  List<Widget> _playHistoryWidgets(PlayHistory playHistory) {
     List<Widget> widgets = List.empty(growable: true);
     playHistory.records.forEach((key, records) {
-      widgets.add(Text(
-        " $key",
-        style: TextStyle(color: Colors.white),
-      ));
+      if (records.any((element) => element.attempted)) {
+        widgets.add(Text(
+          " $key",
+          style: TextStyle(color: Colors.white),
+        ));
 
-      for (PlayRecord record in records) {
-        if (onlyShowAttempted && !record.attempted) continue;
-        widgets.add(HistoryItem(record));
+        for (PlayRecord record in records) {
+          if (record.attempted) {
+            widgets.add(HistoryItem(record));
+          }
+        }
+        widgets.add(SizedBox(height: 20));
       }
-      widgets.add(SizedBox(height: 20));
     });
 
     return widgets;
