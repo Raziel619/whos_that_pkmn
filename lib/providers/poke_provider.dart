@@ -111,6 +111,10 @@ class PokeProvider with ChangeNotifier {
   //endregion
 
   //region Today Quizzes
+  bool isFirstQuiz(){
+    return todayQuizzes[0].attempted;
+  }
+
   PlayRecord? currentPokeQuiz() {
     return todayQuizzes.firstWhere((e) => !e.attempted);
   }

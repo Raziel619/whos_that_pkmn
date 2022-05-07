@@ -4,6 +4,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:whos_that_pkmn/constants/app_colors.dart';
 import 'package:whos_that_pkmn/models/play_record.dart';
 import 'package:whos_that_pkmn/providers/poke_provider.dart';
+import 'package:whos_that_pkmn/utils/extensions.dart';
 import 'package:whos_that_pkmn/widgets/buttons/primary_button.dart';
 import '../../constants/app_arrays.dart';
 
@@ -98,19 +99,14 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                     height: 10,
                   ),
                   _showName
-                      ? Text(_currentPokeGuess.pokemon.name,
-                          style: TextStyle(color: _cardTxtColor()))
+                      ? Text(_currentPokeGuess.pokemon.name.capitalize(),
+                          style:
+                              TextStyle(color: _cardTxtColor(), fontSize: 20))
                       : SizedBox.shrink(),
                   Expanded(
                     child: ColorFiltered(
                       colorFilter: _bw_filter,
-                      child: FadeInImage.memoryNetwork(
-                        //width: (MediaQuery.of(context).size.width * 0.6),
-                        placeholder: widget.pokeProvider.pokeballIcon,
-                        placeholderScale: 0.1,
-                        fit: BoxFit.fitHeight,
-                        image: _image,
-                      ),
+                      child: _imageWidget(),
                     ),
                   ),
                 ],
@@ -130,6 +126,7 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
               child: _showName
                   ? _nextBtn(widget.pokeProvider)
                   : PinCodeTextField(
+                      autoFocus: widget.pokeProvider.isFirstQuiz(),
                       enabled: _textFieldEnabled,
                       appContext: context,
                       cursorColor: AppColors.TEXT_DARK,
@@ -160,6 +157,17 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
     );
   }
 
+  Widget _imageWidget() {
+    return FadeInImage.memoryNetwork(
+      key: UniqueKey(),
+      fadeInDuration: Duration(seconds: 1),
+      placeholder: widget.pokeProvider.pokeballIcon,
+      placeholderScale: 0.1,
+      fit: BoxFit.fitHeight,
+      image: _image,
+    );
+  }
+
   Color _cardTxtColor() {
     return _bgColor == AppColors.PRIMARY_RED
         ? Colors.white
@@ -170,12 +178,18 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
     if (_bgColor == Colors.white) {
       return SizedBox.shrink();
     } else if (_bgColor == AppColors.PRIMARY_GREEN) {
-      return Text("Yay! You got it Correct!",
-          style: TextStyle(color: AppColors.TEXT_DARK), textAlign: TextAlign.center,);
+      return Text(
+        "Yay! You got it Correct!",
+        style: TextStyle(color: AppColors.TEXT_DARK),
+        textAlign: TextAlign.center,
+      );
     }
 
-    return Text("Awwww, Better luck next time.",
-        style: TextStyle(color: AppColors.PRIMARY_RED), textAlign: TextAlign.center,);
+    return Text(
+      "Awwww, Better luck on the next one.",
+      style: TextStyle(color: AppColors.PRIMARY_RED),
+      textAlign: TextAlign.center,
+    );
   }
 
   Widget _nextBtn(PokeProvider pokeProvider) {
@@ -184,11 +198,16 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
             Text(
               "Daily Quiz Complete!\n\nCome Back Tomorrow",
               textAlign: TextAlign.center,
-            )
+            ),
+            SizedBox(
+              height: 10,
+            ),
           ]
         : [
-          _resultText(),
-      SizedBox(height: 10,),
+            _resultText(),
+            SizedBox(
+              height: 10,
+            ),
             PrimaryButton("Next", () {
               pokeProvider.rebuildListeners();
             })

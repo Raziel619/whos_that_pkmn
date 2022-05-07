@@ -26,20 +26,7 @@ class QuizCompletePartial extends StatelessWidget {
             ),
             H1("See You \nTomorrow!"),
             Expanded(child: SizedBox.shrink()),
-            PrimaryButton(
-              "Share Result",
-              () {
-                print("Clicked");
-              },
-              textColor: Colors.white,
-              backgroundColor: AppColors.PRIMARY_BLUE,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            PrimaryButton("Leaderboard", () {
-              print("Clicked");
-            }),
+
           ],
         ),
       ),
