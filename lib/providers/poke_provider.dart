@@ -23,7 +23,9 @@ class PokeProvider with ChangeNotifier {
   Uint8List get pokeballIcon => _pokeballIcon;
 
   List<PlayRecord> get todayQuizzes => _todayQuizzes.records[todaysKey] ?? [];
+
   PlayHistory get playHistory => _playHistory;
+
   PlayHistory get todayQuizzesMap => _todayQuizzes;
 
   Future<void> initialize() async {
@@ -82,15 +84,13 @@ class PokeProvider with ChangeNotifier {
     await LocalStorage.saveLSKey(LSKey.playHistory, jsonString);
   }
 
-  Map<String, int> getPlayerStats(){
+  Map<String, int> getPlayerStats() {
     final todayStats = todayQuizzesMap.getStats();
     final historyStats = playHistory.getStats();
-    final correct = (todayStats["correct"] ?? 0) + (historyStats["correct"] ?? 0);
+    final correct =
+        (todayStats["correct"] ?? 0) + (historyStats["correct"] ?? 0);
     final wrong = (todayStats["wrong"] ?? 0) + (historyStats["wrong"] ?? 0);
-    return {
-      "correct": correct,
-      "wrong": wrong
-    };
+    return {"correct": correct, "wrong": wrong};
   }
 
   //endregion
@@ -122,8 +122,30 @@ class PokeProvider with ChangeNotifier {
   //endregion
 
   //region Today Quizzes
-  bool isFirstQuiz(){
+  int getCurrentQuizNumber() {
+    int num = 1;
+
+    for (PlayRecord quiz in todayQuizzes) {
+      if (!quiz.attempted) return num;
+      num += 1;
+    }
+
+    return num;
+  }
+
+  bool isFirstQuiz() {
     return todayQuizzes[0].attempted;
+  }
+
+  bool isLastQuiz() {
+    for (final quiz in todayQuizzes) {
+      if (quiz.pokemon.name == todayQuizzes.last.pokemon.name) {
+        continue;
+      }
+      if (!quiz.attempted) return false;
+    }
+
+    return true;
   }
 
   PlayRecord? currentPokeQuiz() {

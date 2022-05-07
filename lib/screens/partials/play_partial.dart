@@ -1,8 +1,10 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 import 'package:whos_that_pkmn/constants/app_colors.dart';
 import 'package:whos_that_pkmn/models/play_record.dart';
+import 'package:whos_that_pkmn/providers/ad_provider.dart';
 import 'package:whos_that_pkmn/providers/poke_provider.dart';
 import 'package:whos_that_pkmn/utils/extensions.dart';
 import 'package:whos_that_pkmn/widgets/buttons/primary_button.dart';
@@ -25,13 +27,17 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
   String _image = "";
   ColorFilter _bw_filter = ColorFilter.matrix(AppArrays.BW_FILTER);
   bool _isKeyboardOpen = false;
+  late int _quizNum;
   final _textEditingController = TextEditingController();
   late PlayRecord _currentPokeGuess;
+  late AdProvider _adProvider;
 
   @override
   void initState() {
     super.initState();
+    _adProvider = Provider.of<AdProvider>(context, listen: false);
     _currentPokeGuess = widget.pokeProvider.currentPokeQuiz()!;
+    _quizNum = widget.pokeProvider.getCurrentQuizNumber();
     _image = _currentPokeGuess.sprite_url;
     _textFieldWidth = _currentPokeGuess.pokemon.name.length > 6 ? 30 : null;
     WidgetsBinding.instance?.addObserver(this);
@@ -76,7 +82,9 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                 ),
           Padding(
             padding: const EdgeInsets.only(top: 20),
-            child: Text("1/3", style: TextStyle(height: 1.5, fontSize: 18)),
+            child: Text(
+                "${_quizNum}/${widget.pokeProvider.todayQuizzes.length}",
+                style: TextStyle(height: 1.5, fontSize: 18)),
           ),
           Expanded(
             child: Container(
@@ -133,6 +141,10 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                       length: _currentPokeGuess.pokemon.name.length,
                       onChanged: (String value) {},
                       onCompleted: (String value) {
+                        if (widget.pokeProvider.isLastQuiz()) {
+                          _adProvider.interstitialAd?.show();
+                        }
+
                         final wasCorrect = widget.pokeProvider.attemptPokeGuess(
                             _currentPokeGuess.pokemon.name, value);
                         setState(() {
@@ -163,7 +175,7 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
       fadeInDuration: Duration(seconds: 1),
       placeholder: widget.pokeProvider.pokeballIcon,
       placeholderScale: 0.1,
-      fit: BoxFit.fitHeight,
+      fit: BoxFit.fitWidth,
       image: _image,
     );
   }
