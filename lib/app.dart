@@ -51,7 +51,7 @@ class _AppState extends State<App> {
 
   Future<void> initialize() async {
     await LocalStorage.initialize();
-    //await LocalStorage.deleteAll();
+    await LocalStorage.deleteAll();
     await _pokeProvider.initialize();
     await Future.delayed(Duration(seconds: 3));
   }

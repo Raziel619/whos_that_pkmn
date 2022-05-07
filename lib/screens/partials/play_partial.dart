@@ -33,14 +33,6 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
     _image = _currentPokeGuess.sprite_url;
     _textFieldWidth = _currentPokeGuess.pokemon.name.length > 6 ? 30 : null;
     WidgetsBinding.instance?.addObserver(this);
-    // Future.delayed(const Duration(milliseconds: 10000), () {
-    //   setState(() {
-    //     _bw_filter = ColorFilter.mode(
-    //       Colors.transparent,
-    //       BlendMode.multiply,
-    //     );
-    //   });
-    // });
   }
 
   @override
@@ -81,74 +73,76 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                   ),
                 ),
           Padding(
-            padding: const EdgeInsets.only(top: 30),
+            padding: const EdgeInsets.only(top: 20),
             child: Text("1/3", style: TextStyle(height: 1.5, fontSize: 18)),
           ),
-          Container(
-            margin: EdgeInsets.all(16),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                )),
-            child: Column(
-              children: [
-                if (_currentPokeGuess.generation != null)
-                  Text("Gen ${_currentPokeGuess.generation.toString()}"),
-                SizedBox(
-                  height: 10,
-                ),
-                _showName
-                    ? Text(_currentPokeGuess.pokemon.name)
-                    : SizedBox.shrink(),
-                ColorFiltered(
-                  colorFilter: _bw_filter,
-                  child: FadeInImage.memoryNetwork(
-                    width: (MediaQuery.of(context).size.width * 0.6),
-                    placeholder: widget.pokeProvider.pokeballIcon,
-                    placeholderScale: 0.1,
-                    fit: BoxFit.fitHeight,
-                    image: _image,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          _isKeyboardOpen
-              ? Expanded(child: SizedBox.shrink())
-              : SizedBox.shrink(),
           Expanded(
             child: Container(
-                color: AppColors.GREY_1.withOpacity(0.85),
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: _showName
-                    ? _nextBtn(widget.pokeProvider)
-                    : PinCodeTextField(
-                        enabled: _textFieldEnabled,
-                        appContext: context,
-                        cursorColor: AppColors.TEXT_DARK,
-                        length: _currentPokeGuess.pokemon.name.length,
-                        onChanged: (String value) {},
-                        onCompleted: (String value) {
-                          setState(() {
-                            _textFieldEnabled = false;
-                            _showName = true;
-                            _bw_filter = ColorFilter.mode(
-                              Colors.transparent,
-                              BlendMode.multiply,
-                            );
-                          });
-                          widget.pokeProvider.attemptPokeGuess(
-                              _currentPokeGuess.pokemon.name, value);
-                        },
-                        pinTheme: PinTheme(
-                            fieldWidth: _textFieldWidth,
-                            inactiveColor: AppColors.TEXT_DARK,
-                            selectedColor: AppColors.TEXT_DARK),
-                      )),
+              width: (MediaQuery.of(context).size.width * 0.75),
+              margin: EdgeInsets.all(16),
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  )),
+              child: Column(
+                children: [
+                  if (_currentPokeGuess.generation != null)
+                    Text("Gen ${_currentPokeGuess.generation.toString()}"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _showName
+                      ? Text(_currentPokeGuess.pokemon.name)
+                      : SizedBox.shrink(),
+                  Expanded(
+                    child: ColorFiltered(
+                      colorFilter: _bw_filter,
+                      child: FadeInImage.memoryNetwork(
+                        //width: (MediaQuery.of(context).size.width * 0.6),
+                        placeholder: widget.pokeProvider.pokeballIcon,
+                        placeholderScale: 0.1,
+                        fit: BoxFit.fitHeight,
+                        image: _image,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
+          _isKeyboardOpen?
+              SizedBox.shrink() : SizedBox(height: 30,),
+          Container(
+              color: AppColors.GREY_1.withOpacity(0.85),
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.only(left: 8, right:8, bottom: _isKeyboardOpen? 0 : 16),
+              child: _showName
+                  ? _nextBtn(widget.pokeProvider)
+                  : PinCodeTextField(
+                      enabled: _textFieldEnabled,
+                      appContext: context,
+                      cursorColor: AppColors.TEXT_DARK,
+                      length: _currentPokeGuess.pokemon.name.length,
+                      onChanged: (String value) {},
+                      onCompleted: (String value) {
+                        setState(() {
+                          _textFieldEnabled = false;
+                          _showName = true;
+                          _bw_filter = ColorFilter.mode(
+                            Colors.transparent,
+                            BlendMode.multiply,
+                          );
+                        });
+                        widget.pokeProvider.attemptPokeGuess(
+                            _currentPokeGuess.pokemon.name, value);
+                      },
+                      pinTheme: PinTheme(
+                          fieldWidth: _textFieldWidth,
+                          inactiveColor: AppColors.TEXT_DARK,
+                          selectedColor: AppColors.TEXT_DARK),
+                    )),
         ],
       ),
     );
