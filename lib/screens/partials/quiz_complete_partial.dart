@@ -24,7 +24,7 @@ class QuizCompletePartial extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 20),
               child: Image.asset(AssetPaths.ICON_SNORLAX),
             ),
-            H1("See You \n Tomorrow!"),
+            H1("See You \nTomorrow!"),
             Expanded(child: SizedBox.shrink()),
             PrimaryButton(
               "Share Result",

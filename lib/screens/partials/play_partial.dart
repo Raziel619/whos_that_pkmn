@@ -157,7 +157,7 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
   Widget _nextBtn(PokeProvider pokeProvider) {
     final widget = pokeProvider.isTodayQuizzesComplete()
         ? Text(
-            "Daily Quiz Complete!\n\n Come Back Tomorrow",
+            "Daily Quiz Complete!\n\nCome Back Tomorrow",
             textAlign: TextAlign.center,
           )
         : PrimaryButton("Next", () {
