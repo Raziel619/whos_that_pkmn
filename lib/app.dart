@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:whos_that_pkmn/constants/app_colors.dart';
+import 'package:whos_that_pkmn/providers/ad_provider.dart';
 import 'package:whos_that_pkmn/providers/poke_provider.dart';
 import 'package:whos_that_pkmn/screens/loading_screen.dart';
 import 'package:whos_that_pkmn/screens/main_screen.dart';
@@ -9,18 +10,7 @@ import 'package:whos_that_pkmn/services/local_storage.dart';
 import 'package:flutter_app_popup_ad/flutter_app_popup_ad.dart';
 
 class App extends StatefulWidget {
-  const App({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+  const App({Key? key,}) : super(key: key);
 
   @override
   State<App> createState() => _AppState();
@@ -28,6 +18,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late PokeProvider _pokeProvider;
+  late AdProvider _adProvider;
 
   bool _isLoading = true;
 
@@ -42,6 +33,7 @@ class _AppState extends State<App> {
       await flutterAppPopupAd.determineAndShowAd(context, freq: 3);
     });
     _pokeProvider = Provider.of<PokeProvider>(context, listen: false);
+    _adProvider = Provider.of<AdProvider>(context, listen: false);
     initialize().then((value) {
       setState(() {
         _isLoading = false;
@@ -52,6 +44,7 @@ class _AppState extends State<App> {
   Future<void> initialize() async {
     await LocalStorage.initialize();
     await LocalStorage.deleteAll();
+    await _adProvider.initialize();
     await _pokeProvider.initialize();
     await Future.delayed(Duration(seconds: 3));
   }
