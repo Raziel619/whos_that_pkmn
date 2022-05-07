@@ -1,3 +1,5 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whos_that_pkmn/constants/app_colors.dart';
 import 'package:whos_that_pkmn/models/play_history.dart';
@@ -14,7 +16,7 @@ class HistoryPartial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(pokeProvider.playHistory.getStats());
+    final playerStats = pokeProvider.getPlayerStats();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.PRIMARY_PINK,
@@ -28,7 +30,39 @@ class HistoryPartial extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [SizedBox(height: 20), ..._buildBody()],
+          children: [
+            Row(
+              children: [
+                Expanded(
+                    child: Container(
+                  margin: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                      color: AppColors.PRIMARY_GREEN.withOpacity(0.8),
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  child: AutoSizeText(
+                    "Correct: ${playerStats["correct"] ?? 0}",
+                    maxLines: 1,
+                  ),
+                )),
+                Expanded(
+                    child: Container(
+                  margin: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                      color: AppColors.PRIMARY_RED.withOpacity(0.8),
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  child: AutoSizeText(
+                    "Wrong: ${playerStats["wrong"] ?? 0}",
+                    maxLines: 1,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ))
+              ],
+            ),
+            SizedBox(height: 20),
+            ..._buildBody()
+          ],
         ),
       ),
     );

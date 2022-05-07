@@ -62,7 +62,7 @@ class PokeProvider with ChangeNotifier {
   bool attemptPokeGuess(String name, String guess) {
     name = name.toLowerCase();
     guess = guess.toLowerCase();
-    final isCorrect = name == guess;
+    final isCorrect = (name == guess);
     final index = todayQuizzes.indexWhere((e) => e.pokemon.name == name);
     _todayQuizzes.records[todaysKey]![index].attempted = true;
     _todayQuizzes.records[todaysKey]![index].wasCorrect = isCorrect;
@@ -80,6 +80,17 @@ class PokeProvider with ChangeNotifier {
   Future<void> _savePlayHistory() async {
     final jsonString = jsonEncode(_playHistory.toJson());
     await LocalStorage.saveLSKey(LSKey.playHistory, jsonString);
+  }
+
+  Map<String, int> getPlayerStats(){
+    final todayStats = todayQuizzesMap.getStats();
+    final historyStats = playHistory.getStats();
+    final correct = (todayStats["correct"] ?? 0) + (historyStats["correct"] ?? 0);
+    final wrong = (todayStats["wrong"] ?? 0) + (historyStats["wrong"] ?? 0);
+    return {
+      "correct": correct,
+      "wrong": wrong
+    };
   }
 
   //endregion
