@@ -20,6 +20,7 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
   double? _textFieldWidth;
   bool _textFieldEnabled = true;
   bool _showName = false;
+  Color _bgColor = Colors.white;
   String _image = "";
   ColorFilter _bw_filter = ColorFilter.matrix(AppArrays.BW_FILTER);
   bool _isKeyboardOpen = false;
@@ -82,19 +83,23 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
               margin: EdgeInsets.all(16),
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: _bgColor,
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
                   )),
               child: Column(
                 children: [
                   if (_currentPokeGuess.generation != null)
-                    Text("Gen ${_currentPokeGuess.generation.toString()}"),
+                    Text(
+                      "Gen ${_currentPokeGuess.generation.toString()}",
+                      style: TextStyle(color: _cardTxtColor()),
+                    ),
                   SizedBox(
                     height: 10,
                   ),
                   _showName
-                      ? Text(_currentPokeGuess.pokemon.name)
+                      ? Text(_currentPokeGuess.pokemon.name,
+                          style: TextStyle(color: _cardTxtColor()))
                       : SizedBox.shrink(),
                   Expanded(
                     child: ColorFiltered(
@@ -112,12 +117,16 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
               ),
             ),
           ),
-          _isKeyboardOpen?
-              SizedBox.shrink() : SizedBox(height: 30,),
+          _isKeyboardOpen
+              ? SizedBox.shrink()
+              : SizedBox(
+                  height: 30,
+                ),
           Container(
               color: AppColors.GREY_1.withOpacity(0.85),
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(left: 8, right:8, bottom: _isKeyboardOpen? 0 : 16),
+              padding: EdgeInsets.only(
+                  left: 8, right: 8, bottom: _isKeyboardOpen ? 0 : 16),
               child: _showName
                   ? _nextBtn(widget.pokeProvider)
                   : PinCodeTextField(
@@ -127,6 +136,8 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                       length: _currentPokeGuess.pokemon.name.length,
                       onChanged: (String value) {},
                       onCompleted: (String value) {
+                        final wasCorrect = widget.pokeProvider.attemptPokeGuess(
+                            _currentPokeGuess.pokemon.name, value);
                         setState(() {
                           _textFieldEnabled = false;
                           _showName = true;
@@ -134,9 +145,10 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                             Colors.transparent,
                             BlendMode.multiply,
                           );
+                          _bgColor = wasCorrect
+                              ? AppColors.PRIMARY_GREEN
+                              : AppColors.PRIMARY_RED;
                         });
-                        widget.pokeProvider.attemptPokeGuess(
-                            _currentPokeGuess.pokemon.name, value);
                       },
                       pinTheme: PinTheme(
                           fieldWidth: _textFieldWidth,
@@ -148,22 +160,46 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
     );
   }
 
+  Color _cardTxtColor() {
+    return _bgColor == AppColors.PRIMARY_RED
+        ? Colors.white
+        : AppColors.TEXT_DARK;
+  }
+
+  Widget _resultText() {
+    if (_bgColor == Colors.white) {
+      return SizedBox.shrink();
+    } else if (_bgColor == AppColors.PRIMARY_GREEN) {
+      return Text("Yay! You got it Correct!",
+          style: TextStyle(color: AppColors.TEXT_DARK), textAlign: TextAlign.center,);
+    }
+
+    return Text("Awwww, Better luck next time.",
+        style: TextStyle(color: AppColors.PRIMARY_RED), textAlign: TextAlign.center,);
+  }
+
   Widget _nextBtn(PokeProvider pokeProvider) {
-    final widget = pokeProvider.isTodayQuizzesComplete()
-        ? Text(
-            "Daily Quiz Complete!\n\nCome Back Tomorrow",
-            textAlign: TextAlign.center,
-          )
-        : PrimaryButton("Next", () {
-            pokeProvider.rebuildListeners();
-          });
+    final widgets = pokeProvider.isTodayQuizzesComplete()
+        ? [
+            Text(
+              "Daily Quiz Complete!\n\nCome Back Tomorrow",
+              textAlign: TextAlign.center,
+            )
+          ]
+        : [
+          _resultText(),
+      SizedBox(height: 10,),
+            PrimaryButton("Next", () {
+              pokeProvider.rebuildListeners();
+            })
+          ];
 
     return Column(
       children: [
         SizedBox(
           height: 20,
         ),
-        widget,
+        ...widgets,
       ],
     );
   }

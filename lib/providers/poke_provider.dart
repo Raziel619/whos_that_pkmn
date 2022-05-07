@@ -59,13 +59,15 @@ class PokeProvider with ChangeNotifier {
 
   //region Notify Listeners Methods
 
-  void attemptPokeGuess(String name, String guess) {
+  bool attemptPokeGuess(String name, String guess) {
     name = name.toLowerCase();
     guess = guess.toLowerCase();
+    final isCorrect = name == guess;
     final index = todayQuizzes.indexWhere((e) => e.pokemon.name == name);
     _todayQuizzes.records[todaysKey]![index].attempted = true;
-    _todayQuizzes.records[todaysKey]![index].wasCorrect = (name == guess);
+    _todayQuizzes.records[todaysKey]![index].wasCorrect = isCorrect;
     _saveTodayQuizzes();
+    return isCorrect;
   }
 
   void rebuildListeners() {
