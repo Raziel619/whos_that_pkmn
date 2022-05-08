@@ -18,6 +18,7 @@ class QuizCompletePartial extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Expanded(child: SizedBox.shrink()),
             H1("Daily Quiz \n Complete!"),
             Expanded(child: SizedBox.shrink()),
             Padding(

@@ -1,11 +1,14 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:whos_that_pkmn/constants/app_colors.dart';
+import 'package:whos_that_pkmn/constants/asset_paths.dart';
 import 'package:whos_that_pkmn/models/play_record.dart';
 import 'package:whos_that_pkmn/providers/ad_provider.dart';
 import 'package:whos_that_pkmn/providers/poke_provider.dart';
+import 'package:whos_that_pkmn/services/audio_player.dart';
 import 'package:whos_that_pkmn/utils/extensions.dart';
 import 'package:whos_that_pkmn/widgets/buttons/primary_button.dart';
 import '../../constants/app_arrays.dart';
@@ -20,15 +23,16 @@ class PlayPartial extends StatefulWidget {
 }
 
 class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
+  final _audioService = AudioService();
   double? _textFieldWidth;
   bool _textFieldEnabled = true;
   bool _showName = false;
   Color _bgColor = Colors.white;
   String _image = "";
+  String _guess = "";
   ColorFilter _bw_filter = ColorFilter.matrix(AppArrays.BW_FILTER);
   bool _isKeyboardOpen = false;
   late int _quizNum;
-  final _textEditingController = TextEditingController();
   late PlayRecord _currentPokeGuess;
   late AdProvider _adProvider;
 
@@ -41,12 +45,14 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
     _image = _currentPokeGuess.sprite_url;
     _textFieldWidth = _currentPokeGuess.pokemon.name.length > 6 ? 30 : null;
     WidgetsBinding.instance?.addObserver(this);
+    _audioService.playOneShot(AssetPaths.SFX_NEW_QUIZ);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
+    _audioService.dispose();
   }
 
   @override
@@ -139,7 +145,13 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                       appContext: context,
                       cursorColor: AppColors.TEXT_DARK,
                       length: _currentPokeGuess.pokemon.name.length,
-                      onChanged: (String value) {},
+                      onChanged: (String value) {
+                        final audio = _guess.length > value.length
+                            ? AssetPaths.SFX_CHAR_DELETE
+                            : AssetPaths.SFX_CHAR_ADD;
+                        _audioService.playOneShot(audio);
+                        _guess = value;
+                      },
                       onCompleted: (String value) {
                         if (widget.pokeProvider.isLastQuiz()) {
                           _adProvider.interstitialAd?.show();
@@ -147,6 +159,9 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
 
                         final wasCorrect = widget.pokeProvider.attemptPokeGuess(
                             _currentPokeGuess.pokemon.name, value);
+                        _audioService.playOneShot(wasCorrect
+                            ? AssetPaths.SFX_GUESS_CORRECT
+                            : AssetPaths.SFX_GUESS_WRONG);
                         setState(() {
                           _textFieldEnabled = false;
                           _showName = true;
