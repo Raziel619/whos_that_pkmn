@@ -1,6 +1,8 @@
 PODS:
   - audio_session (0.0.1):
     - Flutter
+  - awesome_notifications (0.0.3):
+    - Flutter
   - external_app_launcher (0.0.1):
     - Flutter
   - Flutter (1.0.0)
@@ -71,6 +73,7 @@ PODS:
 
 DEPENDENCIES:
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
+  - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - external_app_launcher (from `.symlinks/plugins/external_app_launcher/ios`)
   - Flutter (from `Flutter`)
   - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
@@ -93,6 +96,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   audio_session:
     :path: ".symlinks/plugins/audio_session/ios"
+  awesome_notifications:
+    :path: ".symlinks/plugins/awesome_notifications/ios"
   external_app_launcher:
     :path: ".symlinks/plugins/external_app_launcher/ios"
   Flutter:
@@ -112,6 +117,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345
+  awesome_notifications: 04530aafec8dac4635244ed4b4072f4aea6cc938
   external_app_launcher: ad55ac844aa21f2d2197d7cec58ff0d0dc40bbc0
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a

@@ -39,11 +39,11 @@ class LocalStorage{
     await _storage.setString(key.toString(), data);
   }
 
-  static Future<void> saveString(String key, String data) async {
+  static Future<void> saveString(LSKey key, String data) async {
     await _storage.setString(key.toString(), data);
   }
 
-  static Future<void> saveBool(String key, bool value) async{
+  static Future<void> saveBool(LSKey key, bool value) async{
     await _storage.setBool(key.toString(), value);
   }
 
@@ -80,6 +80,7 @@ class LocalStorage{
 enum LSKey{
   playHistory,
   remainingPokemon,
+  requestedPerms,
   todayQuizzes,
 }
 

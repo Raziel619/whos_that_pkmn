@@ -51,6 +51,7 @@ dependencies:
   cached_network_image: ^3.2.0
   auto_size_text: ^3.0.0
   just_audio: ^0.9.21
+  awesome_notifications: ^0.6.21
 
 
 dev_dependencies:

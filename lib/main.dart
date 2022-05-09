@@ -4,10 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:whos_that_pkmn/app.dart';
 import 'package:whos_that_pkmn/providers/ad_provider.dart';
 import 'package:whos_that_pkmn/providers/poke_provider.dart';
+import 'package:whos_that_pkmn/services/push_notifications.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
+  PushNotifications.initialize();
+
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<PokeProvider>(

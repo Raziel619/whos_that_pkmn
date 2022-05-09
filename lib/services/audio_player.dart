@@ -7,7 +7,7 @@ class AudioService {
   AudioPlayer? _playerMain;
   bool _pausedOnBackground = false;
   bool _isMuted = false;
-  final _volume = 0.7;
+  final _volume = 0.5;
 
   //endregion
 
