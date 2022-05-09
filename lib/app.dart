@@ -6,13 +6,16 @@ import 'package:whos_that_pkmn/providers/ad_provider.dart';
 import 'package:whos_that_pkmn/providers/poke_provider.dart';
 import 'package:whos_that_pkmn/screens/loading_screen.dart';
 import 'package:whos_that_pkmn/screens/main_screen.dart';
+import 'package:whos_that_pkmn/screens/no_internet_screen.dart';
+import 'package:whos_that_pkmn/services/internet_checker.dart';
 import 'package:whos_that_pkmn/services/local_storage.dart';
 import 'package:flutter_app_popup_ad/flutter_app_popup_ad.dart';
 import 'package:whos_that_pkmn/services/push_notifications.dart';
-import 'package:whos_that_pkmn/utils/functions.dart';
 
 class App extends StatefulWidget {
-  const App({Key? key,}) : super(key: key);
+  const App({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<App> createState() => _AppState();
@@ -47,11 +50,13 @@ class _AppState extends State<App> {
     await LocalStorage.initialize();
     await PushNotifications.checkPermissions();
     //await LocalStorage.deleteAll();
+    await InternetChecker.initialize();
+    if (!InternetChecker.isConnected) {
+      return;
+    }
     await _adProvider.initialize();
     await _pokeProvider.initialize();
-    await Future.delayed(Duration(seconds: 3));
     PushNotifications.setUpScheduledNotifications();
-
   }
 
   @override
@@ -59,13 +64,17 @@ class _AppState extends State<App> {
     return MaterialApp(
       title: "Who's That Pkmn?!",
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
         textTheme: GoogleFonts.pressStart2pTextTheme().apply(
           bodyColor: AppColors.TEXT_DARK,
           displayColor: AppColors.TEXT_DARK,
         ),
       ),
-      home: _isLoading ? const LoadingScreen() : MainScreen(),
+      home: _isLoading
+          ? const LoadingScreen()
+          : InternetChecker.isConnected
+              ? MainScreen()
+              : NoInternetScreen(),
     );
   }
 }

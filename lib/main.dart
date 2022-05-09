@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:whos_that_pkmn/app.dart';
@@ -12,11 +13,13 @@ void main() {
   PushNotifications.initialize();
 
 
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<PokeProvider>(
-        create: (context) => PokeProvider()),
-    ChangeNotifierProvider<AdProvider>(create: (context) => AdProvider())
-  ], child: const MyApp()),);
+  runApp(Phoenix(
+    child: MultiProvider(providers: [
+      ChangeNotifierProvider<PokeProvider>(
+          create: (context) => PokeProvider()),
+      ChangeNotifierProvider<AdProvider>(create: (context) => AdProvider())
+    ], child: const MyApp()),
+  ),);
 }
 
 class MyApp extends StatelessWidget {

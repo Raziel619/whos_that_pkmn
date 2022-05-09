@@ -4,6 +4,7 @@ class AssetPaths {
   //region Icons
   static const String ICON_CLOSE = "assets/icons/close.png";
   static const String ICON_CORRECT = "assets/icons/correct.png";
+  static const String ICON_EGG = "assets/icons/egg.png";
   static const String ICON_POKEBALL = "assets/icons/pokeball.png";
   static const String ICON_SNORLAX = "assets/icons/snorlax.png";
   static const String ICON_WRONG = "assets/icons/wrong.png";
