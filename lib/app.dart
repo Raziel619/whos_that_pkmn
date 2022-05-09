@@ -9,6 +9,7 @@ import 'package:whos_that_pkmn/screens/main_screen.dart';
 import 'package:whos_that_pkmn/services/local_storage.dart';
 import 'package:flutter_app_popup_ad/flutter_app_popup_ad.dart';
 import 'package:whos_that_pkmn/services/push_notifications.dart';
+import 'package:whos_that_pkmn/utils/functions.dart';
 
 class App extends StatefulWidget {
   const App({Key? key,}) : super(key: key);
@@ -49,6 +50,8 @@ class _AppState extends State<App> {
     await _adProvider.initialize();
     await _pokeProvider.initialize();
     await Future.delayed(Duration(seconds: 3));
+    PushNotifications.setUpScheduledNotifications();
+
   }
 
   @override

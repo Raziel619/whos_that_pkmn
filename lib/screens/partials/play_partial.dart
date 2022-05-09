@@ -12,6 +12,7 @@ import 'package:whos_that_pkmn/services/audio_player.dart';
 import 'package:whos_that_pkmn/utils/extensions.dart';
 import 'package:whos_that_pkmn/widgets/buttons/primary_button.dart';
 import '../../constants/app_arrays.dart';
+import '../../services/push_notifications.dart';
 
 class PlayPartial extends StatefulWidget {
   PokeProvider pokeProvider;
@@ -154,6 +155,7 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                       },
                       onCompleted: (String value) {
                         if (widget.pokeProvider.isLastQuiz()) {
+                          PushNotifications.cancelTodayNotification();
                           _adProvider.interstitialAd?.show();
                         }
 
