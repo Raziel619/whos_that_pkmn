@@ -18,7 +18,8 @@ class PlayPartial extends StatefulWidget {
   PokeProvider pokeProvider;
   AudioService audioService;
 
-  PlayPartial(this.pokeProvider, this.audioService, {Key? key}) : super(key: key);
+  PlayPartial(this.pokeProvider, this.audioService, {Key? key})
+      : super(key: key);
 
   @override
   State<PlayPartial> createState() => _PlayPartialState();
@@ -142,6 +143,7 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                   : PinCodeTextField(
                       autoFocus: widget.pokeProvider.isFirstQuiz(),
                       enabled: _textFieldEnabled,
+                      enablePinAutofill: false,
                       appContext: context,
                       cursorColor: AppColors.TEXT_DARK,
                       length: _currentPokeGuess.pokemon.name.length,
