@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:whos_that_pkmn/constants/app_colors.dart';
 import 'package:whos_that_pkmn/constants/asset_paths.dart';
 import 'package:whos_that_pkmn/models/play_record.dart';
+import 'package:whos_that_pkmn/services/audio_player.dart';
 import 'package:whos_that_pkmn/utils/extensions.dart';
 
 class HistoryItem extends StatelessWidget {
   final PlayRecord playRecord;
+  final AudioService audioService;
 
-  const HistoryItem(this.playRecord, {Key? key}) : super(key: key);
+  const HistoryItem(this.playRecord, this.audioService, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,7 @@ class HistoryItem extends StatelessWidget {
       child: TextButton(
           style: _flatButtonStyle,
           onPressed: () {
+            audioService.playOneShot(AssetPaths.SFX_CLICK);
             showDialog(
                 context: context,
                 builder: (context) {
@@ -44,6 +48,7 @@ class HistoryItem extends StatelessWidget {
                           alignment: Alignment.topRight,
                           child: TextButton(
                             onPressed: () {
+                              audioService.playOneShot(AssetPaths.SFX_CLICK);
                               Navigator.pop(context);
                             },
                             child: Image.asset(

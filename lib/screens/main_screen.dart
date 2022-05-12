@@ -49,6 +49,7 @@ class _MainScreenState extends State<MainScreen> {
               Icon(Icons.list_alt_rounded, size: 30)
             ],
             onTap: (index) {
+              _audioService.playOneShot(AssetPaths.SFX_CLICK);
               setState(() {
                 _selectedIndex = index;
               });

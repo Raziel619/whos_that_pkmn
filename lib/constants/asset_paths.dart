@@ -30,6 +30,7 @@ class AssetPaths {
   //region SFX
   static const String SFX_CHAR_ADD = "assets/sfx/char_add.wav";
   static const String SFX_CHAR_DELETE = "assets/sfx/char_delete.wav";
+  static const String SFX_CLICK = "assets/sfx/click.mp3";
   static const String SFX_GUESS_CORRECT = "assets/sfx/guess_correct.wav";
   static const String SFX_GUESS_WRONG = "assets/sfx/guess_wrong.wav";
   static const String SFX_NEW_QUIZ = "assets/sfx/new_quiz.mp3";

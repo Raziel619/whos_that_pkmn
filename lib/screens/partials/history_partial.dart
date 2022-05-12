@@ -94,7 +94,7 @@ class HistoryPartial extends StatelessWidget {
 
         for (PlayRecord record in records) {
           if (record.attempted) {
-            widgets.add(HistoryItem(record));
+            widgets.add(HistoryItem(record, audioService));
           }
         }
         widgets.add(SizedBox(height: 20));
