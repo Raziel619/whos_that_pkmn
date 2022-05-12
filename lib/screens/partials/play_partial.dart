@@ -16,15 +16,15 @@ import '../../services/push_notifications.dart';
 
 class PlayPartial extends StatefulWidget {
   PokeProvider pokeProvider;
+  AudioService audioService;
 
-  PlayPartial(this.pokeProvider, {Key? key}) : super(key: key);
+  PlayPartial(this.pokeProvider, this.audioService, {Key? key}) : super(key: key);
 
   @override
   State<PlayPartial> createState() => _PlayPartialState();
 }
 
 class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
-  final _audioService = AudioService();
   double? _textFieldWidth;
   bool _textFieldEnabled = true;
   bool _showName = false;
@@ -46,14 +46,13 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
     _image = _currentPokeGuess.sprite_url;
     _textFieldWidth = _currentPokeGuess.pokemon.name.length > 6 ? 30 : null;
     WidgetsBinding.instance?.addObserver(this);
-    _audioService.playOneShot(AssetPaths.SFX_NEW_QUIZ);
+    widget.audioService.playOneShot(AssetPaths.SFX_NEW_QUIZ);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
-    _audioService.dispose();
   }
 
   @override
@@ -150,7 +149,7 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
                         final audio = _guess.length > value.length
                             ? AssetPaths.SFX_CHAR_DELETE
                             : AssetPaths.SFX_CHAR_ADD;
-                        _audioService.playOneShot(audio);
+                        widget.audioService.playOneShot(audio);
                         _guess = value;
                       },
                       onCompleted: (String value) {
@@ -161,7 +160,7 @@ class _PlayPartialState extends State<PlayPartial> with WidgetsBindingObserver {
 
                         final wasCorrect = widget.pokeProvider.attemptPokeGuess(
                             _currentPokeGuess.pokemon.name, value);
-                        _audioService.playOneShot(wasCorrect
+                        widget.audioService.playOneShot(wasCorrect
                             ? AssetPaths.SFX_GUESS_CORRECT
                             : AssetPaths.SFX_GUESS_WRONG);
                         setState(() {

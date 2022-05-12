@@ -49,7 +49,7 @@ class _AppState extends State<App> {
   Future<void> initialize() async {
     await LocalStorage.initialize();
     await PushNotifications.checkPermissions();
-    //await LocalStorage.deleteAll();
+    await LocalStorage.deleteAll();
     await InternetChecker.initialize();
     if (!InternetChecker.isConnected) {
       return;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:whos_that_pkmn/constants/app_colors.dart';
 import 'package:whos_that_pkmn/models/play_history.dart';
 import 'package:whos_that_pkmn/providers/poke_provider.dart';
+import 'package:whos_that_pkmn/services/audio_player.dart';
 import 'package:whos_that_pkmn/widgets/buttons/history_item.dart';
 
 import '../../models/play_record.dart';
@@ -11,8 +12,10 @@ import '../../widgets/typography/h1.dart';
 
 class HistoryPartial extends StatelessWidget {
   PokeProvider pokeProvider;
+  AudioService audioService;
 
-  HistoryPartial(this.pokeProvider, {Key? key}) : super(key: key);
+  HistoryPartial(this.pokeProvider, this.audioService, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -5,6 +5,7 @@ import 'package:whos_that_pkmn/providers/poke_provider.dart';
 import 'package:whos_that_pkmn/screens/partials/history_partial.dart';
 import 'package:whos_that_pkmn/screens/partials/play_partial.dart';
 import 'package:whos_that_pkmn/screens/partials/quiz_complete_partial.dart';
+import 'package:whos_that_pkmn/services/audio_player.dart';
 import '../constants/app_colors.dart';
 import '../constants/asset_paths.dart';
 
@@ -16,11 +17,18 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final _audioService = AudioService();
   int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _audioService.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,10 +67,11 @@ class _MainScreenState extends State<MainScreen> {
             ? QuizCompletePartial()
             : PlayPartial(
                 pokeProvider,
+                _audioService,
                 key: key,
               );
       default:
-        return HistoryPartial(pokeProvider);
+        return HistoryPartial(pokeProvider, _audioService);
     }
   }
 
