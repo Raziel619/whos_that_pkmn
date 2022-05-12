@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.raziel619.whos_that_pkmn">
    <application
-        android:label="whos_that_pkmn"
+        android:label="Who's That Pkmn?!"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
