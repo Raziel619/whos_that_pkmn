@@ -1,6 +1,9 @@
-# whos_that_pkmn
+# Who's That Pkmn?
 
-Who's That Pkmn?
+A complete mobile game for daily pokemon quizzes.
+
+| ![Screenshot1](./store_assets/Android/Screenshot_20220509-174518172.jpg) | ![Screenshot1](./store_assets/Android/Screenshot_20220509-174855293.jpg) | ![Screenshot1](./store_assets/Android/Screenshot_20220509-174938820.jpg) |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
 
 ## Getting Started
 
